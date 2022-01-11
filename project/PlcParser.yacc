@@ -5,50 +5,48 @@
 %pos int
 
 %term 
-PONTO_VIRGULA
-VAR
-IGUAL
-FUN
-REC
-DOIS_PONTOS
-IF
-THEN
-ELSE
-MATCH
-WITH
-EXCLAMACAO
-MENOS
-HD
-TL
-ISE
-PRINT
-AND
-PLUS
-TIMES
-DIV
-DIFERENTE
-MENOR
-MENOR_IGUAL
-DOIS_PONTOS_DUPLO
-ABRE_COLCHETE
-FECHA_COLCHETE
-ABRE_CHAVE
-FECHA_CHAVE
-ABRE_PARENTESE
-FECHA_PARENTESE
-FN
-SETA_GROSSA
-SETA_FINA
-END
-TRUE
-FALSE
-VIRGULA
-PIPE
-ABRE_ASPAS_SIMPLES
-UNDERSCORE
-FECHA_ASPAS_SIMPLES
-NAT
-NAME
+  SEMICOLON
+| VAR
+| EQUAL
+| FUN
+| REC
+| COLON
+| IF
+| THEN
+| ELSE
+| MATCH
+| WITH
+| EXCLAMATION
+| MINUS
+| HD
+| TL
+| ISE
+| PRINT
+| AND
+| PLUS
+| TIMES
+| DIVIDE
+| DIFFERENCE
+| LESS
+| LE
+| DOUBLECOLON
+| LBRACKETS
+| RBRACKETS
+| LBRACES
+| RBRACES
+| LPAREN
+| RPAREN
+| FN
+| TARROW
+| FARROW
+| END
+| TRUE
+| FALSE
+| COMMA
+| PIPE
+| UNDERSCORE
+| NAT
+| NAME
 
 %nonterm 
   Prog
@@ -76,41 +74,41 @@ NAME
 %%
 
 Prog : Expr 
-     | Decl PONTO_VIRGULA Prog
+     | Decl SEMICOLON Prog
 
-Decl : VAR NAME IGUAL Expr
-     | FUN NAME Args IGUAL Expr
-     | FUN REC NAME Args DOIS_PONTOS Type IGUAL Expr
+Decl : VAR NAME EQUAL Expr
+     | FUN NAME Args EQUAL Expr
+     | FUN REC NAME Args COLONType EQUAL Expr
 
 Expr : AtomicExpr 
      | AppExpr 
      | IF Expr THEN Expr ELSE Expr 
      | MATCH Expr WITH MatchExpr
-     | EXCLAMACAO Expr 
-     | MENOS Expr
+     | EXCLAMATION Expr 
+     | MINUS Expr
      | HD Expr
      | TL Expr
      | ISE Expr
      | PRINT Expr
      | Expr AND Expr 
      | Expr PLUS Expr
-     | Expr MENOS Expr
+     | Expr MINUS Expr
      | Expr TIMES Expr
-     | Expr DIV Expr
-     | Expr IGUAL Expr
-     | Expr DIFERENTE Expr
-     | Expr MENOR Expr
-     | Expr MENOR_IGUAL Expr
-     | Expr DOIS_PONTOS_DUPLO Expr
-     | Expr PONTO_VIRGULA Expr
-     | Expr ABRE_COLCHETE NAT FECHA_COLCHETE
+     | Expr DIVIDE Expr
+     | Expr EQUAL Expr
+     | Expr DIFFERENCE Expr
+     | Expr LESS Expr
+     | Expr LE Expr
+     | Expr DOUBLECOLON Expr
+     | Expr SEMICOLON Expr
+     | Expr LBRACKETS NAT RBRACKETS
 
 AtomicExpr : Const 
            | NAME 
-           | ABRE_CHAVE Prog FECHA_CHAVE 
-           | ABRE_PARENTESE Expr FECHA_PARENTESE
-           | ABRE_PARENTESE Comps FECHA_PARENTESE 
-           | FN Args SETA_GROSSA Expr END
+           | LBRACES Prog RBRACES 
+           | LPAREN Expr RPAREN
+           | LPAREN Comps RPAREN 
+           | FN Args TARROW Expr END
 
 AppExpr : AtomicExpr AtomicExpr
         | AppExpr AtomicExpr
@@ -118,35 +116,35 @@ AppExpr : AtomicExpr AtomicExpr
 Const : TRUE 
       | FALSE
       | NAT 
-      | ABRE_PARENTESE FECHA_PARENTESE 
-      | ABRE_PARENTESE Type ABRE_COLCHETE FECHA_COLCHETE FECHA_PARENTESE
+      | LPAREN RPAREN 
+      | LPAREN Type LBRACKETS RBRACKETS RPAREN
 
-Comps : Expr VIRGULA Expr
-      | Expr VIRGULA Comps
+Comps : Expr COMMA Expr
+      | Expr COMMA Comps
 
 MatchExpr : END
-          | PIPE CondExpr SETA_FINA Expr MatchExpr
+          | PIPE CondExpr FARROW Expr MatchExpr
 
 CondExpr : Expr
          | UNDERSCORE
 
-Args : ABRE_PARENTESE FECHA_PARENTESE
-     | ABRE_PARENTESE Params FECHA_PARENTESE
+Args : LPAREN RPAREN
+     | LPAREN Params RPAREN
 
 Params : TypedVar
-       | TypedVar VIRGULA Params
+       | TypedVar COMMA Params
 
 TypedVar : Type NAME 
 
 Type : AtomicType
-     | ABRE_PARENTESE Types FECHA_PARENTESE 
-     | ABRE_COLCHETE Type FECHA_COLCHETE
-     | Type SETA_FINA Type 
+     | LPAREN Types RPAREN 
+     | LBRACKETS Type RBRACKETS
+     | Type FARROW Type 
 
 AtomicType : Nil 
            | Bool 
            | Int 
-           | ABRE_PARENTESE Type FECHA_PARENTESE
+           | LPAREN Type RPAREN
 
-Types : Type VIRGULA Type
-      | Type VIRGULA Types
+Types : Type COMMA Type
+      | Type COMMA Types

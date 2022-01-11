@@ -27,5 +27,50 @@ fun eof () = Tokens.EOF(0,0)
 fun init() = ()
 %%
 %header (functor PlcLexerFun(structure Tokens: PlcParser_TOKENS));
-
+digit=[0-9];
+str=[a-zA-Z_][a-zA-Z_0-9]
 %%
+
+{str}*      => (Tokens.NAME(!lineNumber, !lineNumber))
+{digit}+    => (Tokens.NAT(valOf(getLineAsString()), !lineNumber, !lineNumber));
+
+";"         => (Tokens.SEMICOLON(!lineNumber, !lineNumber));
+"var"       => (Tokens.VAR(!lineNumber, !lineNumber));
+"="         => (Tokens.EQUAL(!lineNumber, !lineNumber));
+"fun"       => (Tokens.FUN(!lineNumber, !lineNumber));
+"rec"       => (Tokens.REC(!lineNumber, !lineNumber));
+":"         => (Tokens.COLON(!lineNumber, !lineNumber));
+"if"        => (Tokens.IF(!lineNumber, !lineNumber));
+"then"      => (Tokens.THEN(!lineNumber, !lineNumber));
+"else"      => (Tokens.ELSE(!lineNumber, !lineNumber));
+"match"     => (Tokens.MATCH(!lineNumber, !lineNumber));
+"with"      => (Tokens.WITH(!lineNumber, !lineNumber));
+"!"         => (Tokens.EXCLAMATION(!lineNumber, !lineNumber));
+"-"         => (Tokens.MINUS(!lineNumber, !lineNumber));
+"hd"        => (Tokens.HD(!lineNumber, !lineNumber));
+"tl"        => (Tokens.TL(!lineNumber, !lineNumber));
+"ise"       => (Tokens.ISE(!lineNumber, !lineNumber));
+"print"     => (Tokens.PRINT(!lineNumber, !lineNumber));
+"&&"        => (Tokens.AND(!lineNumber, !lineNumber));
+"+"         => (Tokens.PLUS(!lineNumber, !lineNumber));
+"*"         => (Tokens.TIMES(!lineNumber, !lineNumber));
+"/"         => (Tokens.DIVIDE(!lineNumber, !lineNumber));
+"!="        => (Tokens.DIFFERENCE(!lineNumber, !lineNumber));
+"<"         => (Tokens.LESS(!lineNumber, !lineNumber));
+"<="        => (Tokens.LE(!lineNumber, !lineNumber));
+"::"        => (Tokens.DOUBLECOLON(!lineNumber, !lineNumber));
+"["         => (Tokens.LBRACKETS(!lineNumber, !lineNumber));
+"]"         => (Tokens.RBRACKETS(!lineNumber, !lineNumber));
+"{"         => (Tokens.LBRACES(!lineNumber, !lineNumber));
+"}"         => (Tokens.RBRACES(!lineNumber, !lineNumber));
+"("         => (Tokens.LPAREN(!lineNumber, !lineNumber));
+")"         => (Tokens.RPAREN(!lineNumber, !lineNumber));
+"fn"        => (Tokens.FN(!lineNumber, !lineNumber));
+"=>"        => (Tokens.TARROW(!lineNumber, !lineNumber));
+"->"        => (Tokens.FARROW(!lineNumber, !lineNumber));
+"end"       => (Tokens.END(!lineNumber, !lineNumber));
+"true"      => (Tokens.TRUE(!lineNumber, !lineNumber));
+"false"     => (Tokens.FALSE(!lineNumber, !lineNumber));
+","         => (Tokens.COMMA(!lineNumber, !lineNumber));
+"|"         => (Tokens.PIPE(!lineNumber, !lineNumber));
+"_"         => (Tokens.UNDERSCORE(!lineNumber, !lineNumber));
