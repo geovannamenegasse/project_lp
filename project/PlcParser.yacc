@@ -7,9 +7,9 @@
 %right SEMICOLON TARROW 
 %nonassoc IF 
 %left ELSE
-     AND
-     EQUAL DIFFERENCE
-     LESS LE
+      AND
+      EQUAL DIFFERENCE
+      LESS LE
 
 %right DOUBLECOLON
 
