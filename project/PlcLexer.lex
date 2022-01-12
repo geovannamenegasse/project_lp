@@ -28,11 +28,11 @@ fun init() = ()
 %%
 %header (functor PlcLexerFun(structure Tokens: PlcParser_TOKENS));
 digit=[0-9];
-str=[a-zA-Z_][a-zA-Z_0-9]
+str=[a-zA-Z_][a-zA-Z_0-9];
 %%
 
-{str}*      => (Tokens.NAME(!lineNumber, !lineNumber))
-{digit}+    => (Tokens.NAT(valOf(getLineAsString()), !lineNumber, !lineNumber));
+{str}*      => (Tokens.NAME(!lineNumber, !lineNumber));
+{digit}+    => (Tokens.NAT(!lineNumber, !lineNumber));
 
 ";"         => (Tokens.SEMICOLON(!lineNumber, !lineNumber));
 "var"       => (Tokens.VAR(!lineNumber, !lineNumber));
