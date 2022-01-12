@@ -4,147 +4,168 @@
 
 %pos int
 
-%term 
-  SEMICOLON
-| VAR
-| EQUAL
-| FUN
-| REC
-| COLON
-| IF
-| THEN
-| ELSE
-| MATCH
-| WITH
-| EXCLAMATION
-| MINUS
-| HD
-| TL
-| ISE
-| PRINT
-| AND
-| PLUS
-| TIMES
-| DIVIDE
-| DIFFERENCE
-| LESS
-| LE
-| DOUBLECOLON
-| LBRACKETS
-| RBRACKETS
-| LBRACES
-| RBRACES
-| LPAREN
-| RPAREN
-| FN
-| TARROW
-| FARROW
-| END
-| TRUE
-| FALSE
-| COMMA
-| PIPE
-| UNDERSCORE
-| NAT
-| NAME
+%right SEMICOLON TARROW 
+%nonassoc IF 
+%left ELSE
+     AND
+     EQUAL DIFFERENCE
+     LESS LE
 
-%nonterm 
-  Prog
-| Decl
-| Expr
-| AtomicExpr
-| AppExpr
-| Const
-| Comps
-| MatchExpr
-| CondExpr
-| Args
-| Params
-| TypedVar
-| Type
-| AtomicType
-| Types
+%right DOUBLECOLON
+
+%left PLUS MINUS
+      TIMES DIVIDE
+
+%nonassoc NOT HD TL ISE PRINT
+%left LBRACKETS
+
+%term SEMICOLON 
+     | TARROW
+     | IF
+     | ELSE
+     | AND
+     | EQUAL
+     | DIFFERENCE
+     | LESS
+     | LE
+     | DOUBLECOLON
+     | PLUS
+     | MINUS
+     | TIMES
+     | DIVIDE
+     | NOT
+     | HD
+     | TL
+     | ISE
+     | PRINT
+     | LBRACKETS
+     | NAT       
+     | VAR      
+     | FUN
+     | REC
+     | COLON     
+     | THEN     
+     | MATCH
+     | WITH
+     | EXCLAMATION     
+     | RBRACKETS
+     | LBRACES
+     | RBRACES
+     | LPAREN
+     | RPAREN
+     | FN     
+     | FARROW
+     | END
+     | TRUE
+     | FALSE
+     | COMMA
+     | PIPE
+     | UNDERSCORE
+     | NAME
+     | EOF
+     | INT
+     | BOOL
+     | NIL
+
+%nonterm Start
+     | Prog
+     | Decl
+     | Expr
+     | AtomicExpr
+     | AppExpr
+     | Const
+     | Comps
+     | MatchExpr
+     | CondExpr
+     | Args
+     | Params
+     | TypedVar
+     | Type
+     | AtomicType
+     | Types
 
 %eop EOF
 
 %noshift EOF
 
-%start Prog
+%start Start
 
 %%
 
-Prog : Expr 
-     | Decl SEMICOLON Prog
+Start : Prog ()
 
-Decl : VAR NAME EQUAL Expr
-     | FUN NAME Args EQUAL Expr
-     | FUN REC NAME Args COLONType EQUAL Expr
+Prog : Expr ()
+     | Decl SEMICOLON Prog ()
 
-Expr : AtomicExpr 
-     | AppExpr 
-     | IF Expr THEN Expr ELSE Expr 
-     | MATCH Expr WITH MatchExpr
-     | EXCLAMATION Expr 
-     | MINUS Expr
-     | HD Expr
-     | TL Expr
-     | ISE Expr
-     | PRINT Expr
-     | Expr AND Expr 
-     | Expr PLUS Expr
-     | Expr MINUS Expr
-     | Expr TIMES Expr
-     | Expr DIVIDE Expr
-     | Expr EQUAL Expr
-     | Expr DIFFERENCE Expr
-     | Expr LESS Expr
-     | Expr LE Expr
-     | Expr DOUBLECOLON Expr
-     | Expr SEMICOLON Expr
-     | Expr LBRACKETS NAT RBRACKETS
+Decl : VAR NAME EQUAL Expr ()
+     | FUN NAME Args EQUAL Expr ()
+     | FUN REC NAME Args COLON Type EQUAL Expr ()
 
-AtomicExpr : Const 
-           | NAME 
-           | LBRACES Prog RBRACES 
-           | LPAREN Expr RPAREN
-           | LPAREN Comps RPAREN 
-           | FN Args TARROW Expr END
+Expr : AtomicExpr  ()
+     | AppExpr  ()
+     | IF Expr THEN Expr ELSE Expr  ()
+     | MATCH Expr WITH MatchExpr ()
+     | EXCLAMATION Expr  ()
+     | MINUS Expr ()
+     | HD Expr ()
+     | TL Expr ()
+     | ISE Expr ()
+     | PRINT Expr ()
+     | Expr AND Expr  ()
+     | Expr PLUS Expr ()
+     | Expr MINUS Expr ()
+     | Expr TIMES Expr ()
+     | Expr DIVIDE Expr ()
+     | Expr EQUAL Expr ()
+     | Expr DIFFERENCE Expr ()
+     | Expr LESS Expr ()
+     | Expr LE Expr ()
+     | Expr DOUBLECOLON Expr ()
+     | Expr SEMICOLON Expr ()
+     | Expr LBRACKETS NAT RBRACKETS ()
 
-AppExpr : AtomicExpr AtomicExpr
-        | AppExpr AtomicExpr
+AtomicExpr : Const  ()
+           | NAME  ()
+           | LBRACES Prog RBRACES  ()
+           | LPAREN Expr RPAREN ()
+           | LPAREN Comps RPAREN  ()
+           | FN Args TARROW Expr END ()
 
-Const : TRUE 
-      | FALSE
-      | NAT 
-      | LPAREN RPAREN 
-      | LPAREN Type LBRACKETS RBRACKETS RPAREN
+AppExpr : AtomicExpr AtomicExpr ()
+        | AppExpr AtomicExpr ()
 
-Comps : Expr COMMA Expr
-      | Expr COMMA Comps
+Const : TRUE  ()
+      | FALSE ()
+      | NAT  ()
+      | LPAREN RPAREN  ()
+      | LPAREN Type LBRACKETS RBRACKETS RPAREN ()
 
-MatchExpr : END
-          | PIPE CondExpr FARROW Expr MatchExpr
+Comps : Expr COMMA Expr ()
+      | Expr COMMA Comps ()
 
-CondExpr : Expr
-         | UNDERSCORE
+MatchExpr : END ()
+          | PIPE CondExpr FARROW Expr MatchExpr ()
 
-Args : LPAREN RPAREN
-     | LPAREN Params RPAREN
+CondExpr : Expr ()
+         | UNDERSCORE ()
 
-Params : TypedVar
-       | TypedVar COMMA Params
+Args : LPAREN RPAREN ()
+     | LPAREN Params RPAREN ()
 
-TypedVar : Type NAME 
+Params : TypedVar ()
+       | TypedVar COMMA Params ()
 
-Type : AtomicType
-     | LPAREN Types RPAREN 
-     | LBRACKETS Type RBRACKETS
-     | Type FARROW Type 
+TypedVar : Type NAME  ()
 
-AtomicType : Nil 
-           | Bool 
-           | Int 
-           | LPAREN Type RPAREN
+Type : AtomicType ()
+     | LPAREN Types RPAREN  ()
+     | LBRACKETS Type RBRACKETS ()
+     | Type FARROW Type  ()
 
-Types : Type COMMA Type
-      | Type COMMA Types
+AtomicType : NIL  ()
+           | BOOL  ()
+           | INT  ()
+           | LPAREN Type RPAREN ()
+
+Types : Type COMMA Type ()
+      | Type COMMA Types ()
