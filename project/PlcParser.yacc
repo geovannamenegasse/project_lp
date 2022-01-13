@@ -16,7 +16,7 @@
 %left PLUS MINUS
       TIMES DIVIDE
 
-%nonassoc NOT HD TL ISE PRINT
+%nonassoc NOT HD TL ISE PRINT NAME
 %left LBRACKETS
 
 %term SEMICOLON 
@@ -70,7 +70,7 @@
 %nonterm Start
      | Prog
      | Decl
-     | Expr
+     | Expr of expr
      | AtomicExpr
      | AppExpr
      | Const
@@ -97,7 +97,7 @@ Start : Prog                                      ()
 Prog : Expr                                       ()
      | Decl SEMICOLON Prog                        ()
 
-Decl : VAR NAME EQUAL Expr                        ()
+Decl : VAR NAME EQUAL Expr SEMICOLON Prog         (Let(NAME,Expr,Prog))
      | FUN NAME Args EQUAL Expr                   ()
      | FUN REC NAME Args COLON Type EQUAL Expr    ()
 
@@ -129,7 +129,7 @@ AtomicExpr : Const                                ()
            | LBRACES Prog RBRACES                 ()
            | LPAREN Expr RPAREN                   ()
            | LPAREN Comps RPAREN                  ()
-           | FN Args TARROW Expr END              ()
+           | FN Args TARROW Expr END              (makeFun())
 
 AppExpr : AtomicExpr AtomicExpr                   ()
         | AppExpr AtomicExpr                      ()
@@ -157,14 +157,14 @@ Params : TypedVar                                 ()
 
 TypedVar : Type NAME                              ()
 
-Type : AtomicType                                 ()
+Type : AtomicType                                 (AtomicType)
      | LPAREN Types RPAREN                        ()
      | LBRACKETS Type RBRACKETS                   ()
      | Type FARROW Type                           ()
 
 AtomicType : NIL                                  ()
            | BOOL                                 ()
-           | INT                                  ()
+           | INT                                  (IntT)
            | LPAREN Type RPAREN                   ()
 
 Types : Type COMMA Type                           ()
