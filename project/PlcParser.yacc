@@ -39,7 +39,7 @@
      | ISE
      | PRINT
      | LBRACKETS
-     | NAT       
+     | NAT of int
      | VAR      
      | FUN
      | REC
@@ -56,33 +56,34 @@
      | FN     
      | FARROW
      | END
-     | TRUE
-     | FALSE
+     
      | COMMA
      | PIPE
      | UNDERSCORE
-     | NAME
+     | NAME of string
+     | TRUE
+     | FALSE
      | EOF
      | INT
      | BOOL
      | NIL
 
-%nonterm Start
-     | Prog
-     | Decl
+%nonterm Start of expr
+     | Prog of expr
+     | Decl of expr
      | Expr of expr
-     | AtomicExpr
-     | AppExpr
-     | Const
-     | Comps
-     | MatchExpr
-     | CondExpr
-     | Args
-     | Params
-     | TypedVar
-     | Type
-     | AtomicType
-     | Types
+     | AtomicExpr of expr
+     | AppExpr of expr
+     | Const of expr
+     | Comps of expr list
+     | MatchExpr of (expr option * expr) list
+     | CondExpr of expr option
+     | Args of (plcType * string) list
+     | Params of (plcType * string) list
+     | TypedVar of plcType * string
+     | Type of plcType
+     | AtomicType of plcType
+     | Types of plcType list
 
 %eop EOF
 
@@ -92,80 +93,80 @@
 
 %%
 
-Start : Prog                                      ()
+Start : Prog                                                    (Prog)
 
-Prog : Expr                                       ()
-     | Decl SEMICOLON Prog                        ()
+Prog : Expr                                                     (Expr)
+     | Decl                                                     (Decl)
 
-Decl : VAR NAME EQUAL Expr SEMICOLON Prog         (Let(NAME,Expr,Prog))
-     | FUN NAME Args EQUAL Expr                   ()
-     | FUN REC NAME Args COLON Type EQUAL Expr    ()
+Decl : VAR NAME EQUAL Expr SEMICOLON Prog                       (Let(NAME,Expr,Prog))
+     | FUN NAME Args EQUAL Expr SEMICOLON Prog                  (makeFun(NAME, Args, ListT [], Expr, Prog))
+     | FUN REC NAME Args COLON Type EQUAL Expr SEMICOLON Prog   (makeFun(NAME, Args, Type, Expr, Prog))
 
-Expr : AtomicExpr                                 ()
-     | AppExpr                                    ()
-     | IF Expr THEN Expr ELSE Expr                ()
-     | MATCH Expr WITH MatchExpr                  ()
-     | EXCLAMATION Expr                           ()
-     | MINUS Expr                                 ()
-     | HD Expr                                    ()
-     | TL Expr                                    ()
-     | ISE Expr                                   ()
-     | PRINT Expr                                 ()
-     | Expr AND Expr                              ()
-     | Expr PLUS Expr                             ()
-     | Expr MINUS Expr                            ()
-     | Expr TIMES Expr                            ()
-     | Expr DIVIDE Expr                           ()
-     | Expr EQUAL Expr                            ()
-     | Expr DIFFERENCE Expr                       ()
-     | Expr LESS Expr                             ()
-     | Expr LE Expr                               ()
-     | Expr DOUBLECOLON Expr                      ()
-     | Expr SEMICOLON Expr                        ()
-     | Expr LBRACKETS NAT RBRACKETS               ()
+Expr : AtomicExpr                                 (AtomicExpr)
+     | AppExpr                                    (AppExpr)
+     | IF Expr THEN Expr ELSE Expr                (If(Expr, Expr, Expr))
+     | MATCH Expr WITH MatchExpr                  (Match(Expr, MatchExpr))
+     | EXCLAMATION Expr                           (Prim1("!", Expr))
+     | MINUS Expr                                 (Prim1("-", Expr))
+     | HD Expr                                    (Prim1("hd", Expr))
+     | TL Expr                                    (Prim1("tl", Expr))
+     | ISE Expr                                   (Prim1("ise", Expr))
+     | PRINT Expr                                 (Prim1("print", Expr))
+     | Expr AND Expr                              (Prim2("&&", Expr, Expr))
+     | Expr PLUS Expr                             (Prim2("+", Expr, Expr))
+     | Expr MINUS Expr                            (Prim2("-", Expr, Expr))
+     | Expr TIMES Expr                            (Prim2("*", Expr, Expr))
+     | Expr DIVIDE Expr                           (Prim2("/", Expr, Expr))
+     | Expr EQUAL Expr                            (Prim2("=", Expr, Expr))
+     | Expr DIFFERENCE Expr                       (Prim2("!=", Expr, Expr))
+     | Expr LESS Expr                             (Prim2("<", Expr, Expr))
+     | Expr LE Expr                               (Prim2("<=", Expr, Expr))
+     | Expr DOUBLECOLON Expr                      (Prim2("::", Expr, Expr))
+     | Expr SEMICOLON Expr                        (Prim2(";", Expr, Expr))
+     | Expr LBRACKETS NAT RBRACKETS               (Item(NAT,Expr))
 
-AtomicExpr : Const                                ()
-           | NAME                                 ()
-           | LBRACES Prog RBRACES                 ()
-           | LPAREN Expr RPAREN                   ()
-           | LPAREN Comps RPAREN                  ()
-           | FN Args TARROW Expr END              (makeFun())
+AtomicExpr : Const                                (Const)
+           | NAME                                 (Var(NAME))
+           | LBRACES Prog RBRACES                 (Prog)
+           | LPAREN Expr RPAREN                   (Expr)
+           | LPAREN Comps RPAREN                  (List Comps)
+           | FN Args TARROW Expr END              (makeAnon(Args, Expr))
 
-AppExpr : AtomicExpr AtomicExpr                   ()
-        | AppExpr AtomicExpr                      ()
+AppExpr : AtomicExpr AtomicExpr                   (Call(AtomicExpr, AtomicExpr))
+        | AppExpr AtomicExpr                      (Call(AppExpr, AtomicExpr))
 
-Const : TRUE                                      ()
-      | FALSE                                     ()
-      | NAT                                       ()
-      | LPAREN RPAREN                             ()
-      | LPAREN Type LBRACKETS RBRACKETS RPAREN    ()
+Const : TRUE                                      (ConB true)
+      | FALSE                                     (ConB false)
+      | NAT                                       (ConI NAT)
+      | LPAREN RPAREN                             (List [])
+      | LPAREN Type LBRACKETS RBRACKETS RPAREN    (ESeq(Type))
 
-Comps : Expr COMMA Expr                           ()
-      | Expr COMMA Comps                          ()
+Comps : Expr COMMA Expr                           (Expr :: Expr :: [])
+      | Expr COMMA Comps                          (Expr :: Comps)
 
-MatchExpr : END                                   ()
-          | PIPE CondExpr FARROW Expr MatchExpr   ()
+MatchExpr : END                                   ([])
+          | PIPE CondExpr FARROW Expr MatchExpr   ((CondExpr, Expr) :: MatchExpr)
 
-CondExpr : Expr                                   ()
-         | UNDERSCORE                             ()
+CondExpr : Expr                                   (SOME(Expr))
+         | UNDERSCORE                             (NONE)
 
-Args : LPAREN RPAREN                              ()
-     | LPAREN Params RPAREN                       ()
+Args : LPAREN RPAREN                              ([])
+     | LPAREN Params RPAREN                       (Params)
 
-Params : TypedVar                                 ()
-       | TypedVar COMMA Params                    ()
+Params : TypedVar                                 (TypedVar::[])
+       | TypedVar COMMA Params                    (TypedVar::Params)
 
-TypedVar : Type NAME                              ()
+TypedVar : Type NAME                              ((Type, NAME))
 
 Type : AtomicType                                 (AtomicType)
-     | LPAREN Types RPAREN                        ()
-     | LBRACKETS Type RBRACKETS                   ()
-     | Type FARROW Type                           ()
+     | LPAREN Types RPAREN                        (ListT Types)
+     | LBRACKETS Type RBRACKETS                   (SeqT Type)
+     | Type FARROW Type                           (FunT(Type, Type))
 
-AtomicType : NIL                                  ()
-           | BOOL                                 ()
+AtomicType : NIL                                  (ListT [])
+           | BOOL                                 (BoolT)
            | INT                                  (IntT)
-           | LPAREN Type RPAREN                   ()
+           | LPAREN Type RPAREN                   (Type)
 
-Types : Type COMMA Type                           ()
-      | Type COMMA Types                          ()
+Types : Type COMMA Type                           (Type :: Type :: [])
+      | Type COMMA Types                          (Type :: Types)

@@ -6,7 +6,7 @@ val NIL:  'a * 'a -> (svalue,'a) token
 val BOOL:  'a * 'a -> (svalue,'a) token
 val INT:  'a * 'a -> (svalue,'a) token
 val EOF:  'a * 'a -> (svalue,'a) token
-val NAME:  'a * 'a -> (svalue,'a) token
+val NAME: (string) *  'a * 'a -> (svalue,'a) token
 val UNDERSCORE:  'a * 'a -> (svalue,'a) token
 val PIPE:  'a * 'a -> (svalue,'a) token
 val COMMA:  'a * 'a -> (svalue,'a) token
@@ -28,7 +28,7 @@ val COLON:  'a * 'a -> (svalue,'a) token
 val REC:  'a * 'a -> (svalue,'a) token
 val FUN:  'a * 'a -> (svalue,'a) token
 val VAR:  'a * 'a -> (svalue,'a) token
-val NAT:  'a * 'a -> (svalue,'a) token
+val NAT: (int) *  'a * 'a -> (svalue,'a) token
 val LBRACKETS:  'a * 'a -> (svalue,'a) token
 val PRINT:  'a * 'a -> (svalue,'a) token
 val ISE:  'a * 'a -> (svalue,'a) token

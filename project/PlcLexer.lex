@@ -31,10 +31,15 @@ digit=[0-9];
 str=[a-zA-Z_][a-zA-Z_0-9];
 %%
 
-{str}*      => (Tokens.NAME(!lineNumber, !lineNumber));
-{digit}+    => (Tokens.NAT(!lineNumber, !lineNumber));
+\n       => (lineNumber := (!lineNumber) + 1; Tokens.EOF(!lineNumber, !lineNumber));
+
+{str}*      => (Tokens.NAME(getLineAsString(), !lineNumber, !lineNumber));
+{digit}+    => (Tokens.NAT(valOf (Int.fromString yytext), !lineNumber, !lineNumber));
 
 ";"         => (Tokens.SEMICOLON(!lineNumber, !lineNumber));
+"end"       => (Tokens.END(!lineNumber, !lineNumber));
+"true"      => (Tokens.TRUE(!lineNumber, !lineNumber));
+"false"     => (Tokens.FALSE(!lineNumber, !lineNumber));
 "var"       => (Tokens.VAR(!lineNumber, !lineNumber));
 "="         => (Tokens.EQUAL(!lineNumber, !lineNumber));
 "fun"       => (Tokens.FUN(!lineNumber, !lineNumber));
@@ -68,9 +73,6 @@ str=[a-zA-Z_][a-zA-Z_0-9];
 "fn"        => (Tokens.FN(!lineNumber, !lineNumber));
 "=>"        => (Tokens.TARROW(!lineNumber, !lineNumber));
 "->"        => (Tokens.FARROW(!lineNumber, !lineNumber));
-"end"       => (Tokens.END(!lineNumber, !lineNumber));
-"true"      => (Tokens.TRUE(!lineNumber, !lineNumber));
-"false"     => (Tokens.FALSE(!lineNumber, !lineNumber));
 ","         => (Tokens.COMMA(!lineNumber, !lineNumber));
 "|"         => (Tokens.PIPE(!lineNumber, !lineNumber));
 "_"         => (Tokens.UNDERSCORE(!lineNumber, !lineNumber));

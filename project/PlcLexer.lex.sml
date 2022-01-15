@@ -51,7 +51,7 @@ val s = [
 \\000"
 ),
  (1, 
-"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+"\000\000\000\000\000\000\000\000\000\000\079\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\077\000\000\000\000\075\000\074\073\072\071\070\068\000\067\
 \\066\066\066\066\066\066\066\066\066\066\064\063\061\059\000\000\
@@ -521,84 +521,85 @@ fun look ((j,x)::r, i: int) = if i = j then x else look(r, i)
 fun g {fin=x, trans=i} = {fin=x, trans=look(s,i)} 
 in Vector.fromList(List.map g 
 [{fin = [], trans = 0},
-{fin = [(N 2)], trans = 1},
-{fin = [(N 2)], trans = 1},
-{fin = [(N 95)], trans = 0},
-{fin = [(N 127)], trans = 0},
-{fin = [(N 93)], trans = 0},
-{fin = [], trans = 6},
-{fin = [(N 2)], trans = 7},
-{fin = [], trans = 8},
-{fin = [(N 2)], trans = 9},
-{fin = [], trans = 10},
-{fin = [(N 2),(N 47)], trans = 7},
-{fin = [], trans = 12},
-{fin = [(N 2)], trans = 13},
-{fin = [(N 11)], trans = 6},
-{fin = [], trans = 15},
-{fin = [(N 2)], trans = 16},
-{fin = [], trans = 17},
-{fin = [(N 2),(N 117)], trans = 7},
-{fin = [(N 2),(N 57)], trans = 7},
-{fin = [(N 2)], trans = 20},
-{fin = [], trans = 21},
-{fin = [(N 2),(N 31)], trans = 7},
-{fin = [], trans = 23},
-{fin = [(N 2)], trans = 24},
-{fin = [(N 21)], trans = 6},
-{fin = [], trans = 26},
-{fin = [(N 2)], trans = 27},
-{fin = [], trans = 28},
-{fin = [(N 2)], trans = 29},
-{fin = [(N 67)], trans = 6},
-{fin = [], trans = 31},
-{fin = [(N 2)], trans = 32},
-{fin = [], trans = 33},
-{fin = [(N 2)], trans = 34},
-{fin = [(N 42)], trans = 6},
-{fin = [], trans = 36},
-{fin = [(N 2)], trans = 37},
-{fin = [(N 61)], trans = 6},
-{fin = [(N 2),(N 26)], trans = 7},
-{fin = [], trans = 40},
-{fin = [(N 2),(N 54)], trans = 7},
-{fin = [], trans = 42},
-{fin = [(N 2)], trans = 43},
-{fin = [(N 17)], trans = 6},
-{fin = [(N 2),(N 102)], trans = 7},
-{fin = [(N 2)], trans = 46},
-{fin = [], trans = 47},
-{fin = [(N 2)], trans = 48},
-{fin = [(N 123)], trans = 6},
-{fin = [], trans = 50},
-{fin = [(N 2)], trans = 51},
-{fin = [(N 112)], trans = 6},
-{fin = [(N 2)], trans = 53},
-{fin = [], trans = 54},
-{fin = [(N 2),(N 36)], trans = 7},
-{fin = [(N 129)], trans = 6},
-{fin = [(N 91)], trans = 0},
-{fin = [(N 89)], trans = 0},
-{fin = [(N 13)], trans = 59},
-{fin = [(N 105)], trans = 0},
-{fin = [(N 81)], trans = 61},
-{fin = [(N 84)], trans = 0},
-{fin = [(N 7)], trans = 0},
-{fin = [(N 23)], trans = 64},
-{fin = [(N 87)], trans = 0},
-{fin = [(N 5)], trans = 66},
-{fin = [(N 76)], trans = 0},
-{fin = [(N 51)], trans = 68},
-{fin = [(N 108)], trans = 0},
-{fin = [(N 125)], trans = 0},
-{fin = [(N 72)], trans = 0},
-{fin = [(N 74)], trans = 0},
-{fin = [(N 99)], trans = 0},
+{fin = [(N 4)], trans = 1},
+{fin = [(N 4)], trans = 1},
 {fin = [(N 97)], trans = 0},
+{fin = [(N 129)], trans = 0},
+{fin = [(N 95)], trans = 0},
+{fin = [], trans = 6},
+{fin = [(N 4)], trans = 7},
+{fin = [], trans = 8},
+{fin = [(N 4)], trans = 9},
+{fin = [], trans = 10},
+{fin = [(N 4),(N 49)], trans = 7},
+{fin = [], trans = 12},
+{fin = [(N 4)], trans = 13},
+{fin = [(N 13)], trans = 6},
+{fin = [], trans = 15},
+{fin = [(N 4)], trans = 16},
+{fin = [], trans = 17},
+{fin = [(N 4),(N 119)], trans = 7},
+{fin = [(N 4),(N 59)], trans = 7},
+{fin = [(N 4)], trans = 20},
+{fin = [], trans = 21},
+{fin = [(N 4),(N 33)], trans = 7},
+{fin = [], trans = 23},
+{fin = [(N 4)], trans = 24},
+{fin = [(N 23)], trans = 6},
+{fin = [], trans = 26},
+{fin = [(N 4)], trans = 27},
+{fin = [], trans = 28},
+{fin = [(N 4)], trans = 29},
+{fin = [(N 69)], trans = 6},
+{fin = [], trans = 31},
+{fin = [(N 4)], trans = 32},
+{fin = [], trans = 33},
+{fin = [(N 4)], trans = 34},
+{fin = [(N 44)], trans = 6},
+{fin = [], trans = 36},
+{fin = [(N 4)], trans = 37},
+{fin = [(N 63)], trans = 6},
+{fin = [(N 4),(N 28)], trans = 7},
+{fin = [], trans = 40},
+{fin = [(N 4),(N 56)], trans = 7},
+{fin = [], trans = 42},
+{fin = [(N 4)], trans = 43},
+{fin = [(N 19)], trans = 6},
+{fin = [(N 4),(N 104)], trans = 7},
+{fin = [(N 4)], trans = 46},
+{fin = [], trans = 47},
+{fin = [(N 4)], trans = 48},
+{fin = [(N 125)], trans = 6},
+{fin = [], trans = 50},
+{fin = [(N 4)], trans = 51},
+{fin = [(N 114)], trans = 6},
+{fin = [(N 4)], trans = 53},
+{fin = [], trans = 54},
+{fin = [(N 4),(N 38)], trans = 7},
+{fin = [(N 131)], trans = 6},
+{fin = [(N 93)], trans = 0},
+{fin = [(N 91)], trans = 0},
+{fin = [(N 15)], trans = 59},
+{fin = [(N 107)], trans = 0},
+{fin = [(N 83)], trans = 61},
+{fin = [(N 86)], trans = 0},
+{fin = [(N 9)], trans = 0},
+{fin = [(N 25)], trans = 64},
+{fin = [(N 89)], trans = 0},
+{fin = [(N 7)], trans = 66},
+{fin = [(N 78)], trans = 0},
+{fin = [(N 53)], trans = 68},
+{fin = [(N 110)], trans = 0},
+{fin = [(N 127)], trans = 0},
+{fin = [(N 74)], trans = 0},
+{fin = [(N 76)], trans = 0},
+{fin = [(N 101)], trans = 0},
+{fin = [(N 99)], trans = 0},
 {fin = [], trans = 75},
-{fin = [(N 70)], trans = 0},
-{fin = [(N 49)], trans = 77},
-{fin = [(N 79)], trans = 0}])
+{fin = [(N 72)], trans = 0},
+{fin = [(N 51)], trans = 77},
+{fin = [(N 81)], trans = 0},
+{fin = [(N 1)], trans = 0}])
 end
 structure StartStates =
 	struct
@@ -640,48 +641,49 @@ let fun continue() = lex() in
 
 			(* Application actions *)
 
-  102 => (Tokens.FN(!lineNumber, !lineNumber))
-| 105 => (Tokens.TARROW(!lineNumber, !lineNumber))
-| 108 => (Tokens.FARROW(!lineNumber, !lineNumber))
-| 11 => (Tokens.VAR(!lineNumber, !lineNumber))
-| 112 => (Tokens.END(!lineNumber, !lineNumber))
-| 117 => (Tokens.TRUE(!lineNumber, !lineNumber))
-| 123 => (Tokens.FALSE(!lineNumber, !lineNumber))
-| 125 => (Tokens.COMMA(!lineNumber, !lineNumber))
-| 127 => (Tokens.PIPE(!lineNumber, !lineNumber))
-| 129 => (Tokens.UNDERSCORE(!lineNumber, !lineNumber))
-| 13 => (Tokens.EQUAL(!lineNumber, !lineNumber))
-| 17 => (Tokens.FUN(!lineNumber, !lineNumber))
-| 2 => (Tokens.NAME(!lineNumber, !lineNumber))
-| 21 => (Tokens.REC(!lineNumber, !lineNumber))
-| 23 => (Tokens.COLON(!lineNumber, !lineNumber))
-| 26 => (Tokens.IF(!lineNumber, !lineNumber))
-| 31 => (Tokens.THEN(!lineNumber, !lineNumber))
-| 36 => (Tokens.ELSE(!lineNumber, !lineNumber))
-| 42 => (Tokens.MATCH(!lineNumber, !lineNumber))
-| 47 => (Tokens.WITH(!lineNumber, !lineNumber))
-| 49 => (Tokens.EXCLAMATION(!lineNumber, !lineNumber))
-| 5 => (Tokens.NAT(!lineNumber, !lineNumber))
-| 51 => (Tokens.MINUS(!lineNumber, !lineNumber))
-| 54 => (Tokens.HD(!lineNumber, !lineNumber))
-| 57 => (Tokens.TL(!lineNumber, !lineNumber))
-| 61 => (Tokens.ISE(!lineNumber, !lineNumber))
-| 67 => (Tokens.PRINT(!lineNumber, !lineNumber))
-| 7 => (Tokens.SEMICOLON(!lineNumber, !lineNumber))
-| 70 => (Tokens.AND(!lineNumber, !lineNumber))
-| 72 => (Tokens.PLUS(!lineNumber, !lineNumber))
-| 74 => (Tokens.TIMES(!lineNumber, !lineNumber))
-| 76 => (Tokens.DIVIDE(!lineNumber, !lineNumber))
-| 79 => (Tokens.DIFFERENCE(!lineNumber, !lineNumber))
-| 81 => (Tokens.LESS(!lineNumber, !lineNumber))
-| 84 => (Tokens.LE(!lineNumber, !lineNumber))
-| 87 => (Tokens.DOUBLECOLON(!lineNumber, !lineNumber))
-| 89 => (Tokens.LBRACKETS(!lineNumber, !lineNumber))
-| 91 => (Tokens.RBRACKETS(!lineNumber, !lineNumber))
-| 93 => (Tokens.LBRACES(!lineNumber, !lineNumber))
-| 95 => (Tokens.RBRACES(!lineNumber, !lineNumber))
-| 97 => (Tokens.LPAREN(!lineNumber, !lineNumber))
-| 99 => (Tokens.RPAREN(!lineNumber, !lineNumber))
+  1 => (lineNumber := (!lineNumber) + 1; Tokens.EOF(!lineNumber, !lineNumber))
+| 101 => (Tokens.RPAREN(!lineNumber, !lineNumber))
+| 104 => (Tokens.FN(!lineNumber, !lineNumber))
+| 107 => (Tokens.TARROW(!lineNumber, !lineNumber))
+| 110 => (Tokens.FARROW(!lineNumber, !lineNumber))
+| 114 => (Tokens.END(!lineNumber, !lineNumber))
+| 119 => (Tokens.TRUE(!lineNumber, !lineNumber))
+| 125 => (Tokens.FALSE(!lineNumber, !lineNumber))
+| 127 => (Tokens.COMMA(!lineNumber, !lineNumber))
+| 129 => (Tokens.PIPE(!lineNumber, !lineNumber))
+| 13 => (Tokens.VAR(!lineNumber, !lineNumber))
+| 131 => (Tokens.UNDERSCORE(!lineNumber, !lineNumber))
+| 15 => (Tokens.EQUAL(!lineNumber, !lineNumber))
+| 19 => (Tokens.FUN(!lineNumber, !lineNumber))
+| 23 => (Tokens.REC(!lineNumber, !lineNumber))
+| 25 => (Tokens.COLON(!lineNumber, !lineNumber))
+| 28 => (Tokens.IF(!lineNumber, !lineNumber))
+| 33 => (Tokens.THEN(!lineNumber, !lineNumber))
+| 38 => (Tokens.ELSE(!lineNumber, !lineNumber))
+| 4 => (Tokens.NAME(getLineAsString(), !lineNumber, !lineNumber))
+| 44 => (Tokens.MATCH(!lineNumber, !lineNumber))
+| 49 => (Tokens.WITH(!lineNumber, !lineNumber))
+| 51 => (Tokens.EXCLAMATION(!lineNumber, !lineNumber))
+| 53 => (Tokens.MINUS(!lineNumber, !lineNumber))
+| 56 => (Tokens.HD(!lineNumber, !lineNumber))
+| 59 => (Tokens.TL(!lineNumber, !lineNumber))
+| 63 => (Tokens.ISE(!lineNumber, !lineNumber))
+| 69 => (Tokens.PRINT(!lineNumber, !lineNumber))
+| 7 => let val yytext=yymktext() in Tokens.NAT(valOf (Int.fromString yytext), !lineNumber, !lineNumber) end
+| 72 => (Tokens.AND(!lineNumber, !lineNumber))
+| 74 => (Tokens.PLUS(!lineNumber, !lineNumber))
+| 76 => (Tokens.TIMES(!lineNumber, !lineNumber))
+| 78 => (Tokens.DIVIDE(!lineNumber, !lineNumber))
+| 81 => (Tokens.DIFFERENCE(!lineNumber, !lineNumber))
+| 83 => (Tokens.LESS(!lineNumber, !lineNumber))
+| 86 => (Tokens.LE(!lineNumber, !lineNumber))
+| 89 => (Tokens.DOUBLECOLON(!lineNumber, !lineNumber))
+| 9 => (Tokens.SEMICOLON(!lineNumber, !lineNumber))
+| 91 => (Tokens.LBRACKETS(!lineNumber, !lineNumber))
+| 93 => (Tokens.RBRACKETS(!lineNumber, !lineNumber))
+| 95 => (Tokens.LBRACES(!lineNumber, !lineNumber))
+| 97 => (Tokens.RBRACES(!lineNumber, !lineNumber))
+| 99 => (Tokens.LPAREN(!lineNumber, !lineNumber))
 | _ => raise Internal.LexerError
 
 		) end )
