@@ -570,7 +570,7 @@ rest671)) => let val  result = MlyValue.Decl (fn _ => let val  (NAME
  val  (Args as Args1) = Args1 ()
  val  (Expr as Expr1) = Expr1 ()
  val  (Prog as Prog1) = Prog1 ()
- in (makeFun(NAME, Args, ListT [], Expr, Prog))
+ in (Let(NAME, makeAnon(Args, Expr), Prog))
 end)
  in ( LrTable.NT 2, ( result, FUN1left, Prog1right), rest671)
 end
@@ -606,10 +606,10 @@ end
 |  ( 8, ( ( _, ( MlyValue.Expr Expr3, _, Expr3right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr2, _, _)) :: _ :: ( _, ( MlyValue.Expr Expr1, _, _))
  :: ( _, ( _, IF1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
  val  Expr3 = Expr3 ()
- in (If(Expr, Expr, Expr))
+ in (If(Expr1, Expr2, Expr3))
 end)
  in ( LrTable.NT 3, ( result, IF1left, Expr3right), rest671)
 end
@@ -668,89 +668,89 @@ end)
 end
 |  ( 16, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("&&", Expr, Expr))
+ in (Prim2("&&", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 17, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("+", Expr, Expr))
+ in (Prim2("+", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 18, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("-", Expr, Expr))
+ in (Prim2("-", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 19, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("*", Expr, Expr))
+ in (Prim2("*", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 20, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("/", Expr, Expr))
+ in (Prim2("/", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 21, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("=", Expr, Expr))
+ in (Prim2("=", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 22, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("!=", Expr, Expr))
+ in (Prim2("!=", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 23, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("<", Expr, Expr))
+ in (Prim2("<", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 24, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("<=", Expr, Expr))
+ in (Prim2("<=", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 25, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2("::", Expr, Expr))
+ in (Prim2("::", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
 |  ( 26, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Expr (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Expr (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Prim2(";", Expr, Expr))
+ in (Prim2(";", Expr1, Expr2))
 end)
  in ( LrTable.NT 3, ( result, Expr1left, Expr2right), rest671)
 end
@@ -811,10 +811,10 @@ end)
 end
 |  ( 34, ( ( _, ( MlyValue.AtomicExpr AtomicExpr2, _, AtomicExpr2right
 )) :: ( _, ( MlyValue.AtomicExpr AtomicExpr1, AtomicExpr1left, _)) :: 
-rest671)) => let val  result = MlyValue.AppExpr (fn _ => let val  (
-AtomicExpr as AtomicExpr1) = AtomicExpr1 ()
+rest671)) => let val  result = MlyValue.AppExpr (fn _ => let val  
+AtomicExpr1 = AtomicExpr1 ()
  val  AtomicExpr2 = AtomicExpr2 ()
- in (Call(AtomicExpr, AtomicExpr))
+ in (Call(AtomicExpr1, AtomicExpr2))
 end)
  in ( LrTable.NT 5, ( result, AtomicExpr1left, AtomicExpr2right), 
 rest671)
@@ -858,9 +858,9 @@ end)
 end
 |  ( 41, ( ( _, ( MlyValue.Expr Expr2, _, Expr2right)) :: _ :: ( _, ( 
 MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result = 
-MlyValue.Comps (fn _ => let val  (Expr as Expr1) = Expr1 ()
+MlyValue.Comps (fn _ => let val  Expr1 = Expr1 ()
  val  Expr2 = Expr2 ()
- in (Expr :: Expr :: [])
+ in (Expr1::Expr2::[])
 end)
  in ( LrTable.NT 7, ( result, Expr1left, Expr2right), rest671)
 end
@@ -868,7 +868,7 @@ end
  ( MlyValue.Expr Expr1, Expr1left, _)) :: rest671)) => let val  result
  = MlyValue.Comps (fn _ => let val  (Expr as Expr1) = Expr1 ()
  val  (Comps as Comps1) = Comps1 ()
- in (Expr :: Comps)
+ in (Expr::Comps)
 end)
  in ( LrTable.NT 7, ( result, Expr1left, Comps1right), rest671)
 end
@@ -883,7 +883,7 @@ rest671)) => let val  result = MlyValue.MatchExpr (fn _ => let val  (
 CondExpr as CondExpr1) = CondExpr1 ()
  val  (Expr as Expr1) = Expr1 ()
  val  (MatchExpr as MatchExpr1) = MatchExpr1 ()
- in ((CondExpr, Expr) :: MatchExpr)
+ in ((CondExpr, Expr)::MatchExpr)
 end)
  in ( LrTable.NT 8, ( result, PIPE1left, MatchExpr1right), rest671)
 
@@ -967,9 +967,9 @@ rest671)
 end
 |  ( 55, ( ( _, ( MlyValue.Type Type2, _, Type2right)) :: _ :: ( _, ( 
 MlyValue.Type Type1, Type1left, _)) :: rest671)) => let val  result = 
-MlyValue.Type (fn _ => let val  (Type as Type1) = Type1 ()
+MlyValue.Type (fn _ => let val  Type1 = Type1 ()
  val  Type2 = Type2 ()
- in (FunT(Type, Type))
+ in (FunT(Type1, Type2))
 end)
  in ( LrTable.NT 13, ( result, Type1left, Type2right), rest671)
 end
@@ -995,9 +995,9 @@ end)
 end
 |  ( 60, ( ( _, ( MlyValue.Type Type2, _, Type2right)) :: _ :: ( _, ( 
 MlyValue.Type Type1, Type1left, _)) :: rest671)) => let val  result = 
-MlyValue.Types (fn _ => let val  (Type as Type1) = Type1 ()
+MlyValue.Types (fn _ => let val  Type1 = Type1 ()
  val  Type2 = Type2 ()
- in (Type :: Type :: [])
+ in (Type1::Type2::[])
 end)
  in ( LrTable.NT 15, ( result, Type1left, Type2right), rest671)
 end
@@ -1005,7 +1005,7 @@ end
  ( MlyValue.Type Type1, Type1left, _)) :: rest671)) => let val  result
  = MlyValue.Types (fn _ => let val  (Type as Type1) = Type1 ()
  val  (Types as Types1) = Types1 ()
- in (Type :: Types)
+ in (Type::Types)
 end)
  in ( LrTable.NT 15, ( result, Type1left, Types1right), rest671)
 end
