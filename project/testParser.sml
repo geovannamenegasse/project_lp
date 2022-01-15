@@ -34,14 +34,5 @@ fromFile ("example.plc");
 
 (* use "testParserCases.sml"; *)
 
-(* fun testes ((c,s)::t) = (s, fromString c)::testes(t)
-   | [] = [];
-
-testes cases;   *)
-(* val (c, s) = hd cases;
-val r = fromString c; *)
-(* r = s; *)
-
-
 (* Try to add a systematic way of using the test cases in
    testParserCases to stress test your parser *)
