@@ -6,12 +6,12 @@ val NIL:  'a * 'a -> (svalue,'a) token
 val BOOL:  'a * 'a -> (svalue,'a) token
 val INT:  'a * 'a -> (svalue,'a) token
 val EOF:  'a * 'a -> (svalue,'a) token
+val FALSE:  'a * 'a -> (svalue,'a) token
+val TRUE:  'a * 'a -> (svalue,'a) token
 val NAME: (string) *  'a * 'a -> (svalue,'a) token
 val UNDERSCORE:  'a * 'a -> (svalue,'a) token
 val PIPE:  'a * 'a -> (svalue,'a) token
 val COMMA:  'a * 'a -> (svalue,'a) token
-val FALSE:  'a * 'a -> (svalue,'a) token
-val TRUE:  'a * 'a -> (svalue,'a) token
 val END:  'a * 'a -> (svalue,'a) token
 val FARROW:  'a * 'a -> (svalue,'a) token
 val FN:  'a * 'a -> (svalue,'a) token

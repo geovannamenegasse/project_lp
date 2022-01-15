@@ -8,6 +8,28 @@ type slvalue = Tokens.svalue
 type ('a,'b) token = ('a,'b) Tokens.token
 type lexresult = (slvalue, pos)token
 
+fun keyword(s, lpos, rpos) = 
+    case s of
+         "var" => (Tokens.VAR(lpos, rpos))
+     |   "if" => (Tokens.IF(lpos, rpos))
+     |   "Bool" => (Tokens.BOOL(lpos,rpos))
+     |   "else" => (Tokens.ELSE(lpos,rpos))
+     |   "end" => (Tokens.END(lpos,rpos))
+     |   "false" => (Tokens.FALSE(lpos,rpos))
+     |   "fn" => (Tokens.FN(lpos,rpos))
+     |   "fun" => (Tokens.FUN(lpos,rpos))
+     |   "hd" => (Tokens.HD(lpos,rpos))
+     |   "Int" => (Tokens.INT(lpos,rpos))
+     |   "match" => (Tokens.MATCH(lpos,rpos))
+     |   "Nil" => (Tokens.NIL(lpos,rpos))
+     |   "print" => (Tokens.PRINT(lpos,rpos))
+     |   "rec" => (Tokens.REC(lpos,rpos))
+     |   "then" => (Tokens.THEN(lpos,rpos))
+     |   "tl" => (Tokens.TL(lpos,rpos))
+     |   "true" => (Tokens.TRUE(lpos,rpos))
+     |   "with" => (Tokens.WITH(lpos,rpos))
+     |   "ise" => (Tokens.ISE(lpos,rpos))
+
 (* A function to print a message error on the screen. *)
 val error = fn x => TextIO.output(TextIO.stdOut, x ^ "\n")
 val lineNumber = ref 0
@@ -28,34 +50,20 @@ fun init() = ()
 %%
 %header (functor PlcLexerFun(structure Tokens: PlcParser_TOKENS));
 digit=[0-9];
+ws = [\ \t];
 str=[a-zA-Z_][a-zA-Z_0-9];
 %%
 
-\n       => (lineNumber := (!lineNumber) + 1; Tokens.EOF(!lineNumber, !lineNumber));
-
-{str}*      => (Tokens.NAME(getLineAsString(), !lineNumber, !lineNumber));
+\n          => (lineNumber := (!lineNumber) + 1; Tokens.EOF(!lineNumber, !lineNumber));
+{ws}+       => (lex());
+{str}*      => (keyword(yytext, !lineNumber, !lineNumber));
 {digit}+    => (Tokens.NAT(valOf (Int.fromString yytext), !lineNumber, !lineNumber));
 
 ";"         => (Tokens.SEMICOLON(!lineNumber, !lineNumber));
-"end"       => (Tokens.END(!lineNumber, !lineNumber));
-"true"      => (Tokens.TRUE(!lineNumber, !lineNumber));
-"false"     => (Tokens.FALSE(!lineNumber, !lineNumber));
-"var"       => (Tokens.VAR(!lineNumber, !lineNumber));
 "="         => (Tokens.EQUAL(!lineNumber, !lineNumber));
-"fun"       => (Tokens.FUN(!lineNumber, !lineNumber));
-"rec"       => (Tokens.REC(!lineNumber, !lineNumber));
 ":"         => (Tokens.COLON(!lineNumber, !lineNumber));
-"if"        => (Tokens.IF(!lineNumber, !lineNumber));
-"then"      => (Tokens.THEN(!lineNumber, !lineNumber));
-"else"      => (Tokens.ELSE(!lineNumber, !lineNumber));
-"match"     => (Tokens.MATCH(!lineNumber, !lineNumber));
-"with"      => (Tokens.WITH(!lineNumber, !lineNumber));
 "!"         => (Tokens.EXCLAMATION(!lineNumber, !lineNumber));
 "-"         => (Tokens.MINUS(!lineNumber, !lineNumber));
-"hd"        => (Tokens.HD(!lineNumber, !lineNumber));
-"tl"        => (Tokens.TL(!lineNumber, !lineNumber));
-"ise"       => (Tokens.ISE(!lineNumber, !lineNumber));
-"print"     => (Tokens.PRINT(!lineNumber, !lineNumber));
 "&&"        => (Tokens.AND(!lineNumber, !lineNumber));
 "+"         => (Tokens.PLUS(!lineNumber, !lineNumber));
 "*"         => (Tokens.TIMES(!lineNumber, !lineNumber));
@@ -70,7 +78,6 @@ str=[a-zA-Z_][a-zA-Z_0-9];
 "}"         => (Tokens.RBRACES(!lineNumber, !lineNumber));
 "("         => (Tokens.LPAREN(!lineNumber, !lineNumber));
 ")"         => (Tokens.RPAREN(!lineNumber, !lineNumber));
-"fn"        => (Tokens.FN(!lineNumber, !lineNumber));
 "=>"        => (Tokens.TARROW(!lineNumber, !lineNumber));
 "->"        => (Tokens.FARROW(!lineNumber, !lineNumber));
 ","         => (Tokens.COMMA(!lineNumber, !lineNumber));
