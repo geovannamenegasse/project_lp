@@ -34,15 +34,25 @@ fromFile ("example.plc");
 
 use "testParserCases.sml";
 
-(* 
-   Função que retorna a minha saída, a saída correta e a comparação.
-   Deixar só como uma lista booleana antes de entregar.
- *)
- 
-fun runTests ((x,y)::t) = if ((fromString x = y) = false) then (fromString x,y,(fromString x = y))::runTests(t) else runTests(t)
-  | runTests [] = [];
-
-val r = runTests cases;
-
 (* Try to add a systematic way of using the test cases in
    testParserCases to stress test your parser *)
+
+(* 
+  Função para rodar os casos de teste. 
+  Retorna 'Passed' para os testes que passaram e 'Failed' para os testes que não passaram.
+*)
+fun runTestCases ((x,y)::t) = if (fromString x = y) then ("Passed")::runTestCases(t) else ("Failed")::runTestCases(t)
+  | runTestCases [] = [];
+
+runTestCases cases;
+
+
+(* 
+  Função para rodar os casos de teste. 
+  Retorna a saída do nosso parser para cada caso de teste.
+*)
+
+(* fun testCasesResult ((x,y)::t) = if (fromString x = y) then (fromString x)::testCasesResult(t) else (fromString x)::testCasesResult(t)
+  | testCasesResult [] = [];
+testCasesResult cases; *)
+
