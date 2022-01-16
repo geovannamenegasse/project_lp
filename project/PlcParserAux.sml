@@ -9,7 +9,7 @@ fun makeFunAux (n: int, xs: (plcType * string) list, e: expr): expr =
 (* Create the list of arguments of a function. *)
 fun makeType (args: (plcType * string) list): plcType =
     case args of
-    [] => ListT []
+      [] => ListT []
     | (t, x)::r => ListT [t, makeType r];
 
 (* Create a function expression. *)

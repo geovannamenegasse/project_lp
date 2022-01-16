@@ -32,7 +32,16 @@ fromString "fun f(Int x) = x; f(1)";
 fromString "match x with | 0 -> 1| _ -> -1 end";
 fromFile ("example.plc");
 
-(* use "testParserCases.sml"; *)
+use "testParserCases.sml";
+
+(* 
+   Função que retorna a minha saída, a saída correta e a comparação.
+   Deixar só como uma lista booleana antes de entregar.
+ *) 
+fun runTests ((x,y)::t) = if ((fromString x = y) = false) then (fromString x,y,(fromString x = y))::runTests(t) else runTests(t)
+  | runTests [] = [];
+
+val r = runTests cases;
 
 (* Try to add a systematic way of using the test cases in
    testParserCases to stress test your parser *)

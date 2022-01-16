@@ -62,6 +62,7 @@ id=[a-zA-Z_][a-zA-Z_0-9]*;
 
 \n          => (lineNumber := !lineNumber + 1; lex());
 {ws}+       => (lex());
+"_"         => (Tokens.UNDERSCORE(!lineNumber, !lineNumber));
 {id}        => (identifier(yytext, !lineNumber, !lineNumber));
 {digit}+    => (Tokens.NAT(strToInt(yytext), !lineNumber, !lineNumber));
 
@@ -88,4 +89,4 @@ id=[a-zA-Z_][a-zA-Z_0-9]*;
 "->"        => (Tokens.FARROW(!lineNumber, !lineNumber));
 ","         => (Tokens.COMMA(!lineNumber, !lineNumber));
 "|"         => (Tokens.PIPE(!lineNumber, !lineNumber));
-"_"         => (Tokens.UNDERSCORE(!lineNumber, !lineNumber));
+

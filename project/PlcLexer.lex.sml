@@ -199,33 +199,33 @@ in Vector.fromList(List.map g
 [{fin = [], trans = 0},
 {fin = [], trans = 1},
 {fin = [], trans = 1},
-{fin = [(N 48)], trans = 0},
-{fin = [(N 62)], trans = 0},
-{fin = [(N 46)], trans = 0},
-{fin = [(N 7)], trans = 6},
-{fin = [(N 7),(N 64)], trans = 6},
-{fin = [(N 44)], trans = 0},
-{fin = [(N 42)], trans = 0},
-{fin = [(N 14)], trans = 10},
-{fin = [(N 55)], trans = 0},
-{fin = [(N 34)], trans = 12},
-{fin = [(N 37)], trans = 0},
-{fin = [(N 12)], trans = 0},
-{fin = [(N 16)], trans = 15},
-{fin = [(N 40)], trans = 0},
-{fin = [(N 10)], trans = 17},
-{fin = [(N 29)], trans = 0},
-{fin = [(N 20)], trans = 19},
-{fin = [(N 58)], trans = 0},
-{fin = [(N 60)], trans = 0},
-{fin = [(N 25)], trans = 0},
-{fin = [(N 27)], trans = 0},
-{fin = [(N 52)], trans = 0},
 {fin = [(N 50)], trans = 0},
+{fin = [(N 64)], trans = 0},
+{fin = [(N 48)], trans = 0},
+{fin = [(N 9)], trans = 6},
+{fin = [(N 6),(N 9)], trans = 6},
+{fin = [(N 46)], trans = 0},
+{fin = [(N 44)], trans = 0},
+{fin = [(N 16)], trans = 10},
+{fin = [(N 57)], trans = 0},
+{fin = [(N 36)], trans = 12},
+{fin = [(N 39)], trans = 0},
+{fin = [(N 14)], trans = 0},
+{fin = [(N 18)], trans = 15},
+{fin = [(N 42)], trans = 0},
+{fin = [(N 12)], trans = 17},
+{fin = [(N 31)], trans = 0},
+{fin = [(N 22)], trans = 19},
+{fin = [(N 60)], trans = 0},
+{fin = [(N 62)], trans = 0},
+{fin = [(N 27)], trans = 0},
+{fin = [(N 29)], trans = 0},
+{fin = [(N 54)], trans = 0},
+{fin = [(N 52)], trans = 0},
 {fin = [], trans = 26},
-{fin = [(N 23)], trans = 0},
-{fin = [(N 18)], trans = 28},
-{fin = [(N 32)], trans = 0},
+{fin = [(N 25)], trans = 0},
+{fin = [(N 20)], trans = 28},
+{fin = [(N 34)], trans = 0},
 {fin = [(N 4)], trans = 30},
 {fin = [(N 1)], trans = 0}])
 end
@@ -270,33 +270,33 @@ let fun continue() = lex() in
 			(* Application actions *)
 
   1 => (lineNumber := !lineNumber + 1; lex())
-| 10 => let val yytext=yymktext() in Tokens.NAT(strToInt(yytext), !lineNumber, !lineNumber) end
-| 12 => (Tokens.SEMICOLON(!lineNumber, !lineNumber))
-| 14 => (Tokens.EQUAL(!lineNumber, !lineNumber))
-| 16 => (Tokens.COLON(!lineNumber, !lineNumber))
-| 18 => (Tokens.EXCLAMATION(!lineNumber, !lineNumber))
-| 20 => (Tokens.MINUS(!lineNumber, !lineNumber))
-| 23 => (Tokens.AND(!lineNumber, !lineNumber))
-| 25 => (Tokens.PLUS(!lineNumber, !lineNumber))
-| 27 => (Tokens.TIMES(!lineNumber, !lineNumber))
-| 29 => (Tokens.DIVIDE(!lineNumber, !lineNumber))
-| 32 => (Tokens.DIFFERENCE(!lineNumber, !lineNumber))
-| 34 => (Tokens.LESS(!lineNumber, !lineNumber))
-| 37 => (Tokens.LE(!lineNumber, !lineNumber))
+| 12 => let val yytext=yymktext() in Tokens.NAT(strToInt(yytext), !lineNumber, !lineNumber) end
+| 14 => (Tokens.SEMICOLON(!lineNumber, !lineNumber))
+| 16 => (Tokens.EQUAL(!lineNumber, !lineNumber))
+| 18 => (Tokens.COLON(!lineNumber, !lineNumber))
+| 20 => (Tokens.EXCLAMATION(!lineNumber, !lineNumber))
+| 22 => (Tokens.MINUS(!lineNumber, !lineNumber))
+| 25 => (Tokens.AND(!lineNumber, !lineNumber))
+| 27 => (Tokens.PLUS(!lineNumber, !lineNumber))
+| 29 => (Tokens.TIMES(!lineNumber, !lineNumber))
+| 31 => (Tokens.DIVIDE(!lineNumber, !lineNumber))
+| 34 => (Tokens.DIFFERENCE(!lineNumber, !lineNumber))
+| 36 => (Tokens.LESS(!lineNumber, !lineNumber))
+| 39 => (Tokens.LE(!lineNumber, !lineNumber))
 | 4 => (lex())
-| 40 => (Tokens.DOUBLECOLON(!lineNumber, !lineNumber))
-| 42 => (Tokens.LBRACKETS(!lineNumber, !lineNumber))
-| 44 => (Tokens.RBRACKETS(!lineNumber, !lineNumber))
-| 46 => (Tokens.LBRACES(!lineNumber, !lineNumber))
-| 48 => (Tokens.RBRACES(!lineNumber, !lineNumber))
-| 50 => (Tokens.LPAREN(!lineNumber, !lineNumber))
-| 52 => (Tokens.RPAREN(!lineNumber, !lineNumber))
-| 55 => (Tokens.TARROW(!lineNumber, !lineNumber))
-| 58 => (Tokens.FARROW(!lineNumber, !lineNumber))
-| 60 => (Tokens.COMMA(!lineNumber, !lineNumber))
-| 62 => (Tokens.PIPE(!lineNumber, !lineNumber))
-| 64 => (Tokens.UNDERSCORE(!lineNumber, !lineNumber))
-| 7 => let val yytext=yymktext() in identifier(yytext, !lineNumber, !lineNumber) end
+| 42 => (Tokens.DOUBLECOLON(!lineNumber, !lineNumber))
+| 44 => (Tokens.LBRACKETS(!lineNumber, !lineNumber))
+| 46 => (Tokens.RBRACKETS(!lineNumber, !lineNumber))
+| 48 => (Tokens.LBRACES(!lineNumber, !lineNumber))
+| 50 => (Tokens.RBRACES(!lineNumber, !lineNumber))
+| 52 => (Tokens.LPAREN(!lineNumber, !lineNumber))
+| 54 => (Tokens.RPAREN(!lineNumber, !lineNumber))
+| 57 => (Tokens.TARROW(!lineNumber, !lineNumber))
+| 6 => (Tokens.UNDERSCORE(!lineNumber, !lineNumber))
+| 60 => (Tokens.FARROW(!lineNumber, !lineNumber))
+| 62 => (Tokens.COMMA(!lineNumber, !lineNumber))
+| 64 => (Tokens.PIPE(!lineNumber, !lineNumber))
+| 9 => let val yytext=yymktext() in identifier(yytext, !lineNumber, !lineNumber) end
 | _ => raise Internal.LexerError
 
 		) end )

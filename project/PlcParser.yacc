@@ -4,21 +4,6 @@
 
 %pos int
 
-%right SEMICOLON TARROW 
-%nonassoc IF 
-%left ELSE
-      AND
-      EQUAL DIFFERENCE
-      LESS LE
-
-%right DOUBLECOLON
-
-%left PLUS MINUS
-      TIMES DIVIDE
-
-%nonassoc NOT HD TL ISE PRINT NAME
-%left LBRACKETS
-
 %term SEMICOLON 
      | TARROW
      | IF
@@ -55,8 +40,7 @@
      | RPAREN
      | FN     
      | FARROW
-     | END
-     
+     | END     
      | COMMA
      | PIPE
      | UNDERSCORE
@@ -84,6 +68,21 @@
      | Type of plcType
      | AtomicType of plcType
      | Types of plcType list
+
+%right SEMICOLON TARROW 
+%nonassoc IF 
+%left ELSE
+%left AND
+%left EQUAL DIFFERENCE
+%left LESS LE
+
+%right DOUBLECOLON
+
+%left PLUS MINUS
+%left TIMES DIVIDE
+
+%nonassoc NOT HD TL ISE PRINT NAME
+%left LBRACKETS
 
 %eop EOF
 
