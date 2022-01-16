@@ -5,12 +5,19 @@ fun makeFunAux (n: int, xs: (plcType * string) list, e: expr): expr =
     case xs of 
     [] => e
     | (t,x)::r => Let(x, Item(n, Var "$list"), makeFunAux ((n +1), r, e) );
-    
+
+fun listType (args: (plcType * string) list) =
+  case args of
+    [] => []
+  | (x,y)::t => x::listType(t);
+
 (* Create the list of arguments of a function. *)
 fun makeType (args: (plcType * string) list): plcType =
-    case args of
-      [] => ListT []
-    | (t, x)::r => ListT [t, makeType r];
+  let 
+    val t = listType(args);
+  in
+    ListT t
+  end;
 
 (* Create a function expression. *)
 fun makeFun (f: string, xs: (plcType * string) list, rt: plcType, e1: expr, e2: expr): expr =

@@ -37,7 +37,8 @@ use "testParserCases.sml";
 (* 
    Função que retorna a minha saída, a saída correta e a comparação.
    Deixar só como uma lista booleana antes de entregar.
- *) 
+ *)
+ 
 fun runTests ((x,y)::t) = if ((fromString x = y) = false) then (fromString x,y,(fromString x = y))::runTests(t) else runTests(t)
   | runTests [] = [];
 
