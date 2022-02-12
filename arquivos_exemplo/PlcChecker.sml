@@ -1,4 +1,5 @@
 (* PlcChecker *)
+
 exception EmptySeq
 exception UnknownType
 exception NotEqTypes
