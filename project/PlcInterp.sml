@@ -31,14 +31,17 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 					val v2 = eval e2 env
 				in
 					case (opr, v1, v2) of
-						 ("*" , IntV i1, IntV i2) => IntV (i1 * i2)
+						  ("*" , IntV i1, IntV i2) => IntV (i1 * i2)
 						| ("/" , IntV i1, IntV i2) => IntV (i1 div i2)
 						| ("+" , IntV i1, IntV i2) => IntV (i1 + i2)
 						| ("-" , IntV i1, IntV i2) => IntV (i1 - i2)
-						| ("=" , IntV i1, IntV i2) => BoolV (i1 = i2)
 						| ("<" , IntV i1, IntV i2) => BoolV (i1 < i2)
 						| ("<=" , IntV i1, IntV i2) => BoolV (i1 <= i2)
+						| ("&&" , BoolV i1, BoolV i2) => BoolV (i1 andalso i2)
 						| ("!=" , IntV i1, IntV i2) => BoolV (i1 <> i2)
+						| ("!=" , BoolV i1, BoolV i2) => BoolV (i1 <> i2)
+						| ("=" , IntV i1, IntV i2) => BoolV (i1 = i2)
+						| ("=" , BoolV i1, BoolV i2) => BoolV (i1 = i2)						
 						| (";" , _ , _) => v2
 						| _ => raise Impossible
 						end

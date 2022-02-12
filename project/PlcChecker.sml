@@ -16,7 +16,9 @@ exception OpNonList
 
 fun teval (e:expr) (env: plcType env) : plcType =
 	case e of
-		 Var x => lookup env x
+		  ConI i => IntT
+		| ConB b => BoolT 
+		| Var x => lookup env x
 		| Prim1(opr, e1) =>
 				let
 					val t1 = teval e1 env
@@ -31,10 +33,17 @@ fun teval (e:expr) (env: plcType env) : plcType =
 					val t2 = teval e2 env
 				in
 					case (opr, t1, t2) of
-					 ("*" , IntT, IntT) => IntT
+					  ("*" , IntT, IntT) => IntT
 					| ("/" , IntT, IntT) => IntT
 					| ("+" , IntT, IntT) => IntT
 					| ("-" , IntT, IntT) => IntT
+					| ("<" , IntT, IntT) => BoolT
+					| ("<=" , IntT, IntT) => BoolT
+					| ("&&" , BoolT, BoolT) => BoolT
+					| ("!=" , IntT, IntT) => BoolT
+					| ("!=" , BoolT, BoolT) => BoolT
+					| ("=" , IntT, IntT) => BoolT
+					| ("=" , BoolT, BoolT) => BoolT		
 					| (";" , _ , _)    => t2
 					| _   =>  raise UnknownType
 				end
@@ -45,4 +54,14 @@ fun teval (e:expr) (env: plcType env) : plcType =
 				in
 					teval e2 env'
 				end
+		| If(e1, e2, e3) => 
+			let
+			  val t1 = teval e1 env
+			  val t2 = teval e2 env
+			  val t3 = teval e3 env
+			in
+			  case t1 of
+			    BoolT => if t2 = t3 then t2 else raise DiffBrTypes
+			  | _ => raise IfCondNotBool
+			end
 		| _   =>  raise UnknownType
