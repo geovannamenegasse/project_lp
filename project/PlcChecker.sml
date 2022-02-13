@@ -18,6 +18,21 @@ fun teval (e:expr) (env: plcType env) : plcType =
 	case e of
 		  ConI i => IntT
 		| ConB b => BoolT 
+		| List [] => ListT []
+		| List e =>			
+			let
+				val vi = teval (hd e) env
+				val vb = teval (List (tl e)) env
+			in
+				ListT [vi, vb]
+			end
+		(* | Item (i, e) => 
+			case e of
+				  List [] => raise ListOutOfRange
+				| List l => if i = 0 then							
+								teval (hd l) env 
+						  	else 
+								teval (Item (i-1, List (tl l))) env *)
 		| Var x => lookup env x
 		| Prim1(opr, e1) =>
 				let
@@ -63,5 +78,18 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			  case t1 of
 			    BoolT => if t2 = t3 then t2 else raise DiffBrTypes
 			  | _ => raise IfCondNotBool
+			end
+		| Anon (t, s, e) => 
+			let 				
+				val env2 = (s,t)::env
+			in
+				FunT (t, teval e env2)
+			end
+		| Call (e2, e1) => 
+			let
+			  val t1 = teval e1 env
+			  val t2 = teval e2 env
+			in
+			  t2 (* qual caso de erro tratar aqui? *)
 			end
 		| _   =>  raise UnknownType

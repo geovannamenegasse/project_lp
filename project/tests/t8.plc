@@ -1,0 +1,2 @@
+fun f (Int x) = fn (Int y) => x+y end; f(3)(4)
+

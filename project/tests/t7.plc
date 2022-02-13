@@ -1,0 +1,1 @@
+var f = fn (Int x) => x end; f(10)
