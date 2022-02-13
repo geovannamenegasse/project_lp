@@ -13,10 +13,9 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 		| List [] => ListV []
 		| List e => 
 			let
-				val vi = eval (hd e) env
-				val vb = eval (List (tl e)) env
+			  val v = map (fn x => eval x env) e
 			in
-				ListV [vi, vb]
+			  ListV v
 			end
 		(* | Item (i, e) => 
 			case e of

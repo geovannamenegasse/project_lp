@@ -19,12 +19,11 @@ fun teval (e:expr) (env: plcType env) : plcType =
 		  ConI i => IntT
 		| ConB b => BoolT 
 		| List [] => ListT []
-		| List e =>			
+		| List e => 
 			let
-				val vi = teval (hd e) env
-				val vb = teval (List (tl e)) env
+			  val v = map (fn x => teval x env) e
 			in
-				ListT [vi, vb]
+			  ListT v
 			end
 		(* | Item (i, e) => 
 			case e of
@@ -93,6 +92,7 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			in
 			  t2 (* qual caso de erro tratar aqui? *)
 			end
+		(* | Letrec (f, t1, x, t, e1, c2) => eval cf ((f, Clos(f,p,ef,env))::env) *)
 		| ESeq (SeqT t) => SeqT t
 		| ESeq _ => raise EmptySeq 
 		| _   =>  raise UnknownType
