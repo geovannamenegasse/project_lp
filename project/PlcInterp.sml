@@ -11,15 +11,13 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 		  ConI i => IntV i
 		| ConB b => BoolV b
 		| List [] => ListV []
-		(* | List e => 
+		| List e => 
 			let
 				val vi = eval (hd e) env
-				val vb = tl e
+				val vb = eval (List (tl e)) env
 			in
-				case vb of 
-					List [x] => ListV [vi, eval x env]
-				  | _ => raise Impossible
-			end *)
+				ListV [vi, vb]
+			end
 		(* | Item (i, e) => 
 			case e of
 				  List [] => raise ListOutOfRange
