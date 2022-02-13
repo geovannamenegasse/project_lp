@@ -28,13 +28,17 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 					val v1 = eval e1 env
 				in
 					case (opr, v1) of
-							("-", IntV i) => IntV (~i)
+						  ("-", IntV i) => IntV (~i)
+						| ("!", BoolV b) => if b = true then BoolV false else BoolV true
 						| ("print", _) =>
 										let
 											val s = val2string v1
 										in
 											print(s^"\n"); ListV []
 										end
+						| ("hd" , SeqV s) => hd s
+						| ("tl" , SeqV s) => SeqV (tl s)
+						| ("ise" , SeqV s) => if s = [] then BoolV true else BoolV false						
 						| _   => raise Impossible
 				end
 		| Prim2(opr, e1, e2) =>

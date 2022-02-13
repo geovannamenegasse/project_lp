@@ -38,7 +38,12 @@ fun teval (e:expr) (env: plcType env) : plcType =
 					val t1 = teval e1 env
 				in
 					case (opr, t1) of
-						 ("print", _) => ListT []
+						  ("-", IntT) => IntT
+						| ("!", BoolT) => BoolT
+						| ("print", _) => ListT []
+						| ("hd" , SeqT s) => s
+						| ("tl" , SeqT s) => SeqT s
+						| ("ise" , SeqT s) => BoolT
 						| _ => raise UnknownType
 				end
 		| Prim2(opr, e1, e2) =>
@@ -76,7 +81,11 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			  val t3 = teval e3 env
 			in
 			  case t1 of
-			    BoolT => if t2 = t3 then t2 else raise DiffBrTypes
+			    BoolT => 
+					if t2 = t3 then 
+						t2 
+					else 
+						raise DiffBrTypes
 			  | _ => raise IfCondNotBool
 			end
 		| Anon (t, s, e) => 
@@ -90,9 +99,18 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			  val t1 = teval e1 env
 			  val t2 = teval e2 env
 			in
-			  t2 (* qual caso de erro tratar aqui? *)
+			  if t2 = FunT(t1,t2) then t2 else raise CallTypeMisM
 			end
-		(* | Letrec (f, t1, x, t, e1, c2) => eval cf ((f, Clos(f,p,ef,env))::env) *)
+		| Letrec (f, t1, x, t, e1, e2) => 
+			let
+				val env2 = (f,FunT(t,t1))::(x,t)::env
+				val v = teval e1 env2
+			in				
+				if v = t1 then  
+					teval e2 env2
+				else
+					raise WrongRetType
+			end
 		| ESeq (SeqT t) => SeqT t
 		| ESeq _ => raise EmptySeq 
 		| _   =>  raise UnknownType
