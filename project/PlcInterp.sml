@@ -69,12 +69,10 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 		| If(e1, e2, e3) => 
 			let
 			  val v1 = eval e1 env
-			  val v2 = eval e2 env
-			  val v3 = eval e3 env
 			in
 			  case v1 of
-			    BoolV true => v2
-			  | BoolV false => v3
+			    BoolV true => eval e2 env
+			  | BoolV false => eval e3 env
 			  | _ => raise Impossible
 			end
 		| Anon (_, s, e) => Clos ("", s, e, env) 
