@@ -6,24 +6,20 @@ exception TLEmptySeq
 exception ValueNotFoundInMatch
 exception NotAFunc
 
-(* fun makeList (x:plcVal list) = 
-	case x of 
-		  [] => []
-		| y::xs => y::makeList(xs); *)
-
 fun eval (e:expr) (env:plcVal env) : plcVal =
 	case e of
 		  ConI i => IntV i
 		| ConB b => BoolV b
 		| List [] => ListV []
-		| List [e1, e2, e3, e4] => ListV[eval e1 env, eval e2 env, eval e3 env, eval e4 env]
-		| List e => ListV [eval (hd e) env]
-			(* let
+		(* | List e => 
+			let
 				val vi = eval (hd e) env
-				val vb = eval (List (tl e)) env
-				val lista = makeList(vb);
+				val vb = tl e
+				(* val lista = makeList(vb); *)
 			in
-				ListV lista
+				case vb of 
+					List [x] => ListV [vi, eval x env]
+				  | _ => raise Impossible
 			end *)
 		(* | Item (i, e) => 
 			case e of
@@ -61,8 +57,9 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 						| ("!=" , IntV i1, IntV i2) => BoolV (i1 <> i2)
 						| ("!=" , BoolV i1, BoolV i2) => BoolV (i1 <> i2)
 						| ("=" , IntV i1, IntV i2) => BoolV (i1 = i2)
-						| ("=" , BoolV i1, BoolV i2) => BoolV (i1 = i2)						
-						| (";" , _ , _) => v2
+						| ("=" , BoolV i1, BoolV i2) => BoolV (i1 = i2)	
+						| ("::" , _ , SeqV i2) => SeqV ([v1] @ i2)					
+						| (";" , _ , _ ) => v2
 						| _ => raise Impossible
 						end
 		| Let(x, e1, e2) =>
@@ -83,23 +80,29 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 			  | BoolV false => v3
 			  | _ => raise Impossible
 			end
-		| Anon (_, s, e) => 
-			let
-				(* val env1 = (s,eval e env)::env *)
-				(* val ev = eval e env1 *)
-				(* val env2 = (s, ev)::env *)
-			in
-				Clos ("", s, e, env) 
-			end
+		| Anon (_, s, e) => Clos ("", s, e, env) 
 		| Call (e1, e2) => 
 			let
-			  val n = eval e1 env
-			  val v = eval e2 env
+			  val c = eval e1 env
 			in
-			  n
+				case c of 
+					Clos(f, p, b, envf) =>
+						let 
+							val v = eval e2 env 
+							val env2 = (p,v)::(f,c)::envf
+						in
+							eval b env2
+						end
+				| _ => raise NotAFunc
 			end
-		| Match (e1, l) => eval e1 env
-		| Letrec (s, t, s2, t2, e1, e2) => eval e1 env
-		| ESeq t => raise EmptySeq
+		(* | Match (e1, l) => 
+			let
+			  
+			in
+			  
+			end *)
+		| Letrec (f, tf, p, tp, ef, cf) => eval cf ((f, Clos(f,p,ef,env))::env)
+		| ESeq (SeqT t) => SeqV []
+		| ESeq _ => raise EmptySeq 
 		| _ => raise Impossible
 

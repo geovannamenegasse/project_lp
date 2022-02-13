@@ -58,7 +58,8 @@ fun teval (e:expr) (env: plcType env) : plcType =
 					| ("!=" , IntT, IntT) => BoolT
 					| ("!=" , BoolT, BoolT) => BoolT
 					| ("=" , IntT, IntT) => BoolT
-					| ("=" , BoolT, BoolT) => BoolT		
+					| ("=" , BoolT, BoolT) => BoolT	
+					| ("::" , _ , SeqT i2) => SeqT i2			
 					| (";" , _ , _)    => t2
 					| _   =>  raise UnknownType
 				end
@@ -92,4 +93,6 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			in
 			  t2 (* qual caso de erro tratar aqui? *)
 			end
+		| ESeq (SeqT t) => SeqT t
+		| ESeq _ => raise EmptySeq 
 		| _   =>  raise UnknownType
