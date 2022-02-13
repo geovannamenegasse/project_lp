@@ -15,7 +15,6 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 			let
 				val vi = eval (hd e) env
 				val vb = tl e
-				(* val lista = makeList(vb); *)
 			in
 				case vb of 
 					List [x] => ListV [vi, eval x env]
