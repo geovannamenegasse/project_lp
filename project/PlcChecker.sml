@@ -61,14 +61,23 @@ fun teval (e:expr) (env: plcType env) : plcType =
 					| ("/" , IntT, IntT) => IntT
 					| ("+" , IntT, IntT) => IntT
 					| ("-" , IntT, IntT) => IntT
+
 					| ("<" , IntT, IntT) => BoolT
 					| ("<=" , IntT, IntT) => BoolT
+
 					| ("&&" , BoolT, BoolT) => BoolT
-					| ("!=" , IntT, IntT) => BoolT
-					| ("!=" , BoolT, BoolT) => BoolT
-					| ("=" , IntT, IntT) => BoolT
-					| ("=" , BoolT, BoolT) => BoolT	
-					| ("::" , _ , SeqT i2) => SeqT i2			
+
+					| ("!=" , IntT, IntT) => if t1 = t2 then BoolT else raise NotEqTypes
+					| ("=" , IntT, IntT) => if t1 = t2 then BoolT else raise NotEqTypes
+					| ("!=" , BoolT, BoolT) => if t1 = t2 then BoolT else raise NotEqTypes
+					| ("=" , BoolT, BoolT) => if t1 = t2 then BoolT else raise NotEqTypes	
+
+					| ("!=" , ListT l1, ListT l2) => if t1 = t2 then BoolT else raise NotEqTypes
+					| ("=" ,  ListT l1, ListT l2) => if t1 = t2 then BoolT else raise NotEqTypes
+					| ("!=" , SeqT s1, SeqT s2)   => if t1 = t2 then BoolT else raise NotEqTypes
+					| ("=" ,  SeqT s1, SeqT s2)   => if t1 = t2 then BoolT else raise NotEqTypes
+
+					| ("::" , _ , SeqT i2) => if t1 = i2 then SeqT i2 else raise UnknownType
 					| (";" , _ , _)    => t2
 					| _ => raise UnknownType
 				end
@@ -82,8 +91,6 @@ fun teval (e:expr) (env: plcType env) : plcType =
 		| If(e1, e2, e3) => 
 			let
 			  val t1 = teval e1 env
-			  (* val t2 = teval e2 env
-			  val t3 = teval e3 env *)
 			in
 			  case t1 of
 			    BoolT => 
@@ -105,8 +112,11 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			  val tf = teval f env
 			in
 				case tf of
-					FunT(x, y) => if x = te then y else raise CallTypeMisM
-				  | _ => raise CallTypeMisM
+					FunT(x, y) => if x = te then 
+									y 
+								  else 
+								  	raise CallTypeMisM
+				  | _ => raise NotFunc
 			end
 		| Letrec (f, t1, x, t, e1, e2) => 
 			let
@@ -120,5 +130,57 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			end
 		| ESeq (SeqT t) => SeqT t
 		| ESeq _ => raise EmptySeq 
-		(* | Match *)
-		| _   =>  raise UnknownType
+		| Match (e1, l) =>
+			let
+				fun check_x_param l1 e2 =
+					case l1 of
+					  [] => teval e2 env 
+					| elem::rest =>
+						case elem of 
+						  (SOME (x), y) => 
+							if teval x env = teval e2 env 
+								then check_x_param rest e2
+							else raise MatchCondTypesDiff
+						| (NONE, y) => teval y env
+				fun check_x l1 x1 =
+					case l1 of
+					  [] => teval x1 env 
+					| elem::rest =>
+						case elem of 
+						  (SOME (x), y) => 
+							if teval x env = teval x1 env 
+								then  check_x rest x1
+							else raise MatchCondTypesDiff
+						| (NONE, y) => teval y env
+				
+				fun check_y l1 y1=
+					case l1 of
+					  [] => teval y1 env 
+					| elem::rest =>
+						case elem of 
+						  (SOME (x), y) => 
+							if teval y env = teval y1 env 
+								then check_y rest y1
+							else raise MatchResTypeDiff
+						| (NONE, y) => if teval y env = teval y1 env 
+										then teval y env
+									   else raise MatchResTypeDiff
+			in
+				if l = [] then 
+					raise NoMatchResults 
+				else
+					check_x_param l e1;
+
+				case l of
+					elem::rest =>
+						case elem of 
+						  (SOME (x), y) => check_x rest x
+						| (NONE, y) => teval y env;
+
+				case l of
+					elem::rest =>
+						case elem of 
+						  (SOME (x), y) => check_y rest y
+						| (NONE, y) => teval y env
+			end
+		(* | _   =>  raise UnknownType *)

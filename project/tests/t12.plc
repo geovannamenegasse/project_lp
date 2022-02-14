@@ -1,1 +1,1 @@
-match x with | 0 -> 1 | _ -> -1 end
+fun f(Int x, Int b) = match b with | 0 -> {x + 1} | 2 -> {x + 2} | 3 -> {x + 3} | _ -> x end; f(3,2)

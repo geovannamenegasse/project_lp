@@ -20,9 +20,9 @@ use "PlcChecker.sml";
 use "PlcInterp.sml";
 use "Plc.sml";
 
-val abs = fromFile "tests/t17.plc";
-val venv = [];
+val abs = fromFile "example.plc";
 val v = run(abs);
+(* val venv = []; *)
 (* val v = eval abs venv; *)
 (* val v = teval abs venv; *)
 

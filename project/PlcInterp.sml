@@ -39,8 +39,8 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 										in
 											print(s^"\n"); ListV []
 										end
-						| ("hd" , SeqV s) => hd s
-						| ("tl" , SeqV s) => SeqV (tl s)
+						| ("hd" , SeqV s) => if s = [] then raise HDEmptySeq else hd s
+						| ("tl" , SeqV s) => if s = [] then raise TLEmptySeq else SeqV (tl s)
 						| ("ise" , SeqV s) => if s = [] then BoolV true else BoolV false						
 						| _   => raise Impossible
 				end
@@ -54,13 +54,21 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 						| ("/" , IntV i1, IntV i2) => IntV (i1 div i2)
 						| ("+" , IntV i1, IntV i2) => IntV (i1 + i2)
 						| ("-" , IntV i1, IntV i2) => IntV (i1 - i2)
+
 						| ("<" , IntV i1, IntV i2) => BoolV (i1 < i2)
 						| ("<=" , IntV i1, IntV i2) => BoolV (i1 <= i2)
+
 						| ("&&" , BoolV i1, BoolV i2) => BoolV (i1 andalso i2)
+
 						| ("!=" , IntV i1, IntV i2) => BoolV (i1 <> i2)
 						| ("!=" , BoolV i1, BoolV i2) => BoolV (i1 <> i2)
+						| ("!=" ,  ListV l1, ListV l2) => BoolV (l1 <> l2)
+						| ("!=" ,  SeqV l1, SeqV l2) => BoolV (l1 <> l2)
 						| ("=" , IntV i1, IntV i2) => BoolV (i1 = i2)
 						| ("=" , BoolV i1, BoolV i2) => BoolV (i1 = i2)	
+						| ("=" ,  ListV l1, ListV l2) => BoolV (l1 = l2)
+						| ("=" ,  SeqV l1, SeqV l2) => BoolV (l1 = l2)
+						
 						| ("::" , _ , SeqV i2) => SeqV ([v1] @ i2)					
 						| (";" , _ , _ ) => v2
 						| _ => raise Impossible
@@ -81,7 +89,8 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 			  | BoolV false => eval e3 env
 			  | _ => raise Impossible
 			end
-		| Anon (_, s, e) => Clos ("", s, e, env) 
+		| Anon (_, s, e) => 
+			Clos ("", s, e, env) 
 		| Call (e1, e2) => 
 			let
 			  val c = eval e1 env
@@ -96,14 +105,29 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 						end
 				| _ => raise NotAFunc
 			end
-		| Letrec (f, tf, p, tp, ef, cf) => eval cf ((f, Clos(f,p,ef,env))::env)
+		| Letrec (f, tf, p, tp, ef, cf) => 
+			eval cf ((f, Clos(f,p,ef,env))::env)
 		| ESeq (SeqT t) => SeqV []
 		| ESeq _ => raise EmptySeq 
-		(* | Match (e1, l) => 
-			let
-			  
+		| Match (e1, l) => 
+			let 
+				val v = eval e1 env 
 			in
-			  
-			end *)
-		| _ => raise Impossible
+				case l of
+				   (SOME (x), y)::rest => 
+					 if eval x env = v then 
+					 	eval y env 
+					 else 
+					 	if rest = [] then 
+						 	raise ValueNotFoundInMatch 
+						else
+					 		eval (Match(e1,rest)) env
+				 | (NONE, y)::rest => 
+				 	if rest = [] then 
+					 	eval y env
+					else 
+						raise Impossible
+				 | _ => raise Impossible
+			end
+ 		(* | _ => raise Impossible *)
 
