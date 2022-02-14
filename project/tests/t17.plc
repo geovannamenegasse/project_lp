@@ -1,0 +1,2 @@
+fn (Int x, Int y) => x - y end
+
