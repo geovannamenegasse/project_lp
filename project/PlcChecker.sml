@@ -65,7 +65,7 @@ fun teval (e:expr) (env: plcType env) : plcType =
 					| ("=" , BoolT, BoolT) => BoolT	
 					| ("::" , _ , SeqT i2) => SeqT i2			
 					| (";" , _ , _)    => t2
-					| _   =>  raise UnknownType
+					| _ => raise UnknownType
 				end
 		| Let(x, e1, e2) =>
 				let
@@ -77,13 +77,13 @@ fun teval (e:expr) (env: plcType env) : plcType =
 		| If(e1, e2, e3) => 
 			let
 			  val t1 = teval e1 env
-			  val t2 = teval e2 env
-			  val t3 = teval e3 env
+			  (* val t2 = teval e2 env
+			  val t3 = teval e3 env *)
 			in
 			  case t1 of
 			    BoolT => 
-					if t2 = t3 then 
-						t2 
+					if teval e2 env = teval e3 env then 
+						teval e3 env
 					else 
 						raise DiffBrTypes
 			  | _ => raise IfCondNotBool
@@ -94,22 +94,24 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			in
 				FunT (t, teval e env2)
 			end
-		| Call (e2, e1) => 
+		| Call (f, e) => 
 			let
-			  val t1 = teval e1 env
-			  val t2 = teval e2 env
+			  val te = teval e env
+			  val tf = teval f env
 			in
-			  if t2 = FunT(t1,t2) then t2 else raise CallTypeMisM
+				case tf of
+					FunT(x, y) => if x = te then y else raise CallTypeMisM
+				  | _ => raise CallTypeMisM
 			end
 		| Letrec (f, t1, x, t, e1, e2) => 
 			let
 				val env2 = (f,FunT(t,t1))::(x,t)::env
-				val v = teval e1 env2
-			in				
-				if v = t1 then  
+				val v1 = teval e1 env2
+			in	
+				if v1 = t1 then 
 					teval e2 env2
-				else
-					raise WrongRetType
+				else 
+					raise WrongRetType				
 			end
 		| ESeq (SeqT t) => SeqT t
 		| ESeq _ => raise EmptySeq 
