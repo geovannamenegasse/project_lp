@@ -17,12 +17,12 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 			in
 			  ListV v
 			end
-		| Item (idx, expr) =>
+		| Item (i, e) =>
 			let
-				val listValue = eval expr env
+				val v = eval e env
 			in
-				case listValue of
-						ListV vs => List.nth(vs, idx-1)
+				case v of
+						ListV vs => List.nth(vs, i-1)
 					| _ => raise Impossible
 			end
 		| Var x => lookup env x

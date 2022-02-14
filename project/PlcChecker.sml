@@ -25,14 +25,14 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			in
 			  ListT v
 			end
-		| Item(idx, e1) =>
+		| Item(i, e1) =>
                 let
-                    val listType = teval e1 env
+                    val v = teval e1 env
                 in
-                    case listType of
+                    case v of
                          ListT ts =>
-                            if 0 < idx andalso idx <= List.length ts then
-                                List.nth(ts, idx-1)
+                            if 0 < i andalso i <= List.length ts then
+                                List.nth(ts, i-1)
                             else
                                 raise ListOutOfRange
                         | _ => raise OpNonList
