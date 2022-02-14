@@ -1,0 +1,75 @@
+false
+~2
+4
+6
+5
+4
+3
+2
+1
+0
+val it =
+  [
+   "0 : Int",
+   "17 : Int",
+   "true : Bool",
+   "true : Bool",
+   "false : Bool",
+   "5 : Int",
+   "4 : Int",
+   "Plc Checker: Unknown operator, or type error.",
+   "true : Bool",
+   "24 : Int",
+   "() : Nil",
+   "(1, false, (), ) : (Int, Bool, Nil, )",
+   "(1, (2, 3, ), 4, ) : (Int, (Int, Int, ), Int, )",
+   "false : Bool",
+   "(false, ) : (Bool, )", ERRADO
+   "4 : Int",
+   "() : Nil",
+   "() : Nil",
+   "[] : [Int]",
+   "[] : [Int]",
+   "[] : [Bool]",
+   "[] : [Nil]",
+   "[] : [[Int]]",
+   "[] : [Int -> Nil]",
+   "[] : [[Int -> Int -> Bool]]",
+   "[] : [(Nil, Int, Bool, )]",
+   "[1, ] : [Int]",
+   "[1, 2, ] : [Int]",
+   "[(1, 2, ), (3, 4, ), ] : [(Int, Int, )]",
+   "1 : Int",
+   "[2, ] : [Int]",
+   "true : Bool",
+   "false : Bool",
+   "5 : Int",
+   "5 : Int",
+   "10 : Int",
+   "() : Nil",
+   "Symbol not found.",
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "[true, false, ] : [Bool]",
+   "<fun> : Int -> Int",                                         
+   "<fun> : Int -> Int",                                         
+   "<fun> : Int -> Int",                                         
+   "10 : Int",
+   "<fun> : Int -> Int",                                         
+   "7 : Int",
+   "7 : Int",
+   "10 : Int",
+   "16 : Int",
+   "() : Nil",
+   "2 : Int",
+   "Plc Checker: Unknown operator, or type error.",             ERRADO 
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "Plc Checker: Unknown operator, or type error.",             ERRADO
+   "[20, 40, 60, ] : [Int]"
+  ]
+  : string list

@@ -101,14 +101,14 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 						end
 				| _ => raise NotAFunc
 			end
+		| Letrec (f, tf, p, tp, ef, cf) => eval cf ((f, Clos(f,p,ef,env))::env)
+		| ESeq (SeqT t) => SeqV []
+		| ESeq _ => raise EmptySeq 
 		(* | Match (e1, l) => 
 			let
 			  
 			in
 			  
 			end *)
-		| Letrec (f, tf, p, tp, ef, cf) => eval cf ((f, Clos(f,p,ef,env))::env)
-		| ESeq (SeqT t) => SeqV []
-		| ESeq _ => raise EmptySeq 
 		| _ => raise Impossible
 

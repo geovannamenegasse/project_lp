@@ -25,3 +25,10 @@ val venv = [];
 val v = run(abs);
 (* val v = eval abs venv; *)
 (* val v = teval abs venv; *)
+
+(* use "testParserCases.sml";
+
+fun runTestCases ((x,y)::t) = run(y)::runTestCases(t)
+  | runTestCases [] = [];
+
+runTestCases cases; *)

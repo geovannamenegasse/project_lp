@@ -111,14 +111,15 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			end
 		| Letrec (f, t1, x, t, e1, e2) => 
 			let
-				val env2 = (f,FunT(t,t1))::(x,t)::env
+				val env2 = (f,FunT(t1,t))::(x,t1)::env
 				val v1 = teval e1 env2
-			in	
-				if v1 = t1 then 
+			in					
+				if v1 = t then 
 					teval e2 env2
 				else 
 					raise WrongRetType				
 			end
 		| ESeq (SeqT t) => SeqT t
 		| ESeq _ => raise EmptySeq 
+		(* | Match *)
 		| _   =>  raise UnknownType
