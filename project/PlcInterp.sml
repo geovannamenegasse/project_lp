@@ -17,18 +17,13 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 			in
 			  ListV v
 			end
-		| Item (i, e) => 
+		| Item (idx, expr) =>
 			let
-				fun nth((xs : expr), (i: int)) : expr =
-					if i < 0 then raise ListOutOfRange
-					else
-						case xs of
-						   List [] => raise ListOutOfRange
-						 | List (x::xs1) => if i = 0 then x else nth(List xs1,i-1)
-						 | _ => List [xs];
-					val e1 = nth(e,i);
+				val listValue = eval expr env
 			in
-				eval e1 env
+				case listValue of
+						ListV vs => List.nth(vs, idx-1)
+					| _ => raise Impossible
 			end
 		| Var x => lookup env x
 		| Prim1(opr, e1) =>

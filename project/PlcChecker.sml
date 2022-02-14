@@ -25,19 +25,18 @@ fun teval (e:expr) (env: plcType env) : plcType =
 			in
 			  ListT v
 			end
-		| Item (i, e) => 
-			let
-				fun nth((xs : expr), (i: int)) : expr =
-					if i < 0 then raise ListOutOfRange
-					else
-						case xs of
-						   List [] => raise ListOutOfRange
-						 | List (x::xs1) => if i = 0 then x else nth(List xs1,i-1)
-						 | _ => List [xs];
-					val e1 = nth(e,i);
-			in
-				teval e1 env
-			end
+		| Item(idx, e1) =>
+                let
+                    val listType = teval e1 env
+                in
+                    case listType of
+                         ListT ts =>
+                            if 0 < idx andalso idx <= List.length ts then
+                                List.nth(ts, idx-1)
+                            else
+                                raise ListOutOfRange
+                        | _ => raise OpNonList
+                end
 		| Var x => lookup env x
 		| Prim1(opr, e1) =>
 				let
