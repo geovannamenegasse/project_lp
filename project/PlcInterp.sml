@@ -1,6 +1,6 @@
 (* PlcInterp *)
 
-exception Impossible
+(* exception Impossible *)
 exception HDEmptySeq
 exception TLEmptySeq
 exception ValueNotFoundInMatch
@@ -25,7 +25,7 @@ fun eval (e:expr) (env:plcVal env) : plcVal =
 						ListV vs => List.nth(vs, i-1)
 					| _ => raise Impossible
 			end
-		| Var x => lookup env x
+		| Var x => lookupE env x
 		| Prim1(opr, e1) =>
 				let
 					val v1 = eval e1 env

@@ -1,7 +1,7 @@
 (* PlcChecker *)
 
 exception EmptySeq
-exception UnknownType
+(* exception UnknownType *)
 exception NotEqTypes
 exception WrongRetType
 exception DiffBrTypes
@@ -37,7 +37,8 @@ fun teval (e:expr) (env: plcType env) : plcType =
                                 raise ListOutOfRange
                         | _ => raise OpNonList
                 end
-		| Var x => lookup env x
+		| Var x => 
+			lookupT env x
 		| Prim1(opr, e1) =>
 				let
 					val t1 = teval e1 env
