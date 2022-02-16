@@ -27,7 +27,7 @@ use "testParserCases.sml";
    Para rodar, basta descomentar a linha testCases cases;.
 *)
 fun testCases c = map (fn (x,y) => let val v = run(fromString x) in print(x^"\n'"^v^"'\n\n"); v end) c; 
-(* testCases cases; *)
+testCases cases;
 
 (*
    Existem vários arquivos de exemplo na pasta tests. Para rodar todos eles, basta descomentar a linha 
@@ -36,12 +36,12 @@ fun testCases c = map (fn (x,y) => let val v = run(fromString x) in print(x^"\n'
 *)
 (* List.tabulate(17, fn x => run(fromFile ("tests/t"^Int.toString(x)^".plc"))); *)
 (* val abs = fromFile "tests/t13.plc"; *)
-val abs = fromFile "example.plc";
+(* val abs = fromFile "example.plc"; *)
 
 (* val abs = fromString "fun f(Int x, Int b) = match b with | 2 -> {x + 1} | _ -> x end; f(3,2)"; *)
 (* val abs = Letrec("f",BoolT,"x",BoolT,If (Var "x",ConI 11,ConI 22), Call (Var "f",ConB true)); *)
 
-val v = run(abs);
+(* val v = run(abs); *)
 (* val venv = []; *)
 (* val v = eval abs venv; *)
 (* val v = teval abs venv; *)
